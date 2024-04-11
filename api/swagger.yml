@@ -1,0 +1,1021 @@
+swagger: "2.0"
+info:
+  title: digital-trace-main-backend-service
+  version: 0.1.1
+  description: Главный backend обработчик для проекта digital trace
+
+basePath: /api/v1
+
+
+
+
+tags:
+  - name: auth
+    description: Сущность авторизации
+  - name: session
+    description: Сущность сессий 
+  - name: user
+    description: Сущность пользователя
+  - name: achievement
+    description: Сущность достижений
+  - name: test
+    description: Сущность тестов
+  - name: attempt
+    description: Сущность попытки тестирования
+  - name: mail
+    description: Сущность mail
+  - name: logs
+    description: Сущность логгирования
+
+
+paths:
+  /auth:
+    post:
+      tags:
+        - auth
+      operationId: authPost
+      summary: Запрос на аутентификацию пользователя
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: email пользователя
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password: 
+                type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Возвращаемые ответы
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              refresh_token:
+                type: string
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+  /session:
+    patch:
+      tags:
+        - session
+      operationId: sessionPatch
+      summary: Запрос на продление сессии по refresh токену
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              refresh_token:
+                type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Возвращаемые ответы
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              refresh_token:
+                type: string
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+    delete:
+      tags:
+        - session
+      operationId: sessionDelete
+      summary: Запрос на удаление сессии по refresh токену
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              refresh_token:
+                type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Успешное выполнение операции
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+  /user:
+    post:
+      # ДОБАВЛЕНИЕ НОВОГО ПОЛЬЗОВАТЕЛЯ
+      tags:
+        - user
+      operationId: userPost
+      summary: Запрос на добавление нового пользователя
+      consumes: 
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt auth
+          required: true
+        - name: body
+          in: body
+          description: Тело запроса 
+          required: true
+          schema: 
+            required:
+              - role_id
+              - email
+              - login
+              - name
+              - surname
+              - password
+            type: object
+            properties:
+              role_id:
+                type: integer
+                format: uint64
+              email:
+                type: string
+              login:
+                type: string
+              name:
+                type: string
+              surname:
+                type: string
+              password:
+                type: string
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Пользователь добавлен
+          schema:
+            type: object
+            properties:
+              user_id: 
+                type: integer
+                format: uint64
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+    get:
+      tags:
+        - all_users
+      operationId: userGet
+      summary: Запрос на поиск информации о пользователях
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          description: Поиск по Id пользователя
+          type: integer
+          format: uint64
+          required: false
+        - name: role_id
+          in: query
+          description: Поиск по роли пользователя
+          type: integer
+          format: uint64
+          required: false
+        - name: email
+          in: query
+          description: Поиск по email пользователя
+          type: string
+          required: false
+        - name: login
+          in: query
+          description: Поиск по логину пользователя
+          type: string
+          required: false
+        - name: name
+          in: query
+          description: Поиск по имени пользователя
+          type: string
+          required: false
+        - name: surname
+          in: query
+          description: Поиск по фамилии пользователя
+          type: string
+          required: false
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Информация о пользователях успешно получена
+          schema: 
+            type: array
+            items:
+              type: object
+              properties:
+                id: 
+                  type: integer
+                  format: uint64
+                email:
+                  type: string
+                login:
+                  type: string
+                name:
+                  type: string
+                surname:
+                  type: string
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+  
+  /user/avatar:
+    put: 
+      tags:
+        - user
+      operationId: user_avatar_put
+      summary: Запрос на добавление фотографии пользователя
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: тело запроса
+          schema:
+            type: object
+            properties:
+              prefix:
+                type: string
+              image_base64:
+                type: string
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt auth
+          required: true
+      produces:
+        - application/json
+      responses:
+        200:
+          description: ОК
+        500:
+            description: Ошибка сервера либо запроса
+            schema:
+              $ref: '#/definitions/error_500'
+    
+    get: 
+      tags:
+        - user
+      operationId: user_avatar_get
+      summary: Запрос на добавление фотографии пользователя
+      consumes:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt auth
+          required: true
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Изображение успешно получено
+          headers:
+            Content-Disposition:
+              type: string
+              description: File name
+          schema:
+            type: string
+        500:
+            description: Ошибка сервера либо запроса
+            schema:
+              $ref: '#/definitions/error_500'
+
+
+
+  
+  /user/profile:
+    get:
+      tags:
+        - user
+      operationId: userProfile
+      summary: Запрос на поиск информации о пользователях
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt auth
+          required: true
+      produces:
+      - application/json
+      responses:
+        200:
+          description: информация о достижениях успешно получена
+          schema: 
+            type: object
+            properties:
+              id: 
+                type: integer
+                format: uint64
+              created_at:
+                type: string
+                format: date-time
+              updated_at:
+                type: string
+                format: date-time
+              role_id:
+                type: integer
+                format: uint64
+              email:
+                type: string
+              login:
+                type: string
+              name:
+                type: string
+              surname:
+                type: string
+        500:
+          description: Ошибка сервера либо запроса
+          schema:
+            $ref: '#/definitions/error_500'
+
+
+  /user/achievement:
+    post:
+      tags:
+        - user
+      operationId: userAchievementPost
+      summary: Запрос на добавление достижения пользователю
+      consumes:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt auth
+          required: true
+        - name: body
+          in: body
+          description: Тело запроса 
+          required: true
+          schema: 
+            type: object
+            properties:
+              image:
+                type: string
+              achive_types:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+                  minimum: 0
+      responses:
+        200:
+          description: Изображение успешно добавлено
+        500:
+          description: Ошибка сервера либо запроса
+          schema:
+            $ref: '#/definitions/error_500'
+
+    get:
+      tags:
+        - user
+      operationId: userAchievementGet
+      summary: Запрос на получение информации о достижениях пользователя
+      consumes:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt access auth
+          required: true
+      produces:
+        - application/json
+      responses:
+        200:
+          description: информация о достижениях успешно получена
+          schema: 
+            type: array
+            items:
+              type: object
+              properties:
+                achievement_id:
+                  type: integer
+                  format: uint64
+                achievement_types:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      achievement_type_id:
+                        type: integer
+                        format: int64
+                        minimum: 0
+        500:
+          description: Ошибка сервера либо запроса
+          schema:
+            $ref: '#/definitions/error_500'
+                
+
+  /user/achievement/{achive_id}/image:
+    get:
+      tags:
+        - user
+      operationId: user_Achievement_AchiveId_Image_Get
+      summary: Запрос на получение ссылки на скачивание изображения достижения
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt access auth
+          required: true
+        - name: achive_id
+          in: path
+          description: Id достижения у пользователя
+          type: integer
+          format: uint64
+          required: true
+      produces:
+        - image/png
+      responses:
+        200:
+          description: Изображение успешно получено
+          headers:
+            Content-Disposition:
+              type: string
+              description: File name
+          schema:
+            type: string
+        500:
+          description: Ошибка сервера либо запроса
+          schema:
+            $ref: '#/definitions/error_500'
+  
+  /user/attempt:
+    get:
+      tags:
+        - user
+      operationId: userAttemptGet
+      summary: Запрос на поиск информации о попытках прохождения теста пользователем
+      parameters:
+        - name: test_id
+          in: query
+          type: integer
+          format: uint64
+          required: false
+        - name: status_id
+          in: query
+          type: integer
+          format: uint64
+          required: false
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt auth
+          required: true
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                attempt_id: 
+                  type: integer
+                  format: uint64
+                test_id: 
+                  type: integer
+                  format: uint64
+                status_id:
+                  type: integer
+                  format: uint64
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+  
+  /user/attempt/{attempt_id}/azbel_test:
+    get:
+      tags:
+        - user
+      operationId: userAttemptAttemptIdAzbelTestGet
+      summary: Запрос на получение ответов на тест интересов от азбеля
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt access auth
+          required: true
+        - name: attempt_id
+          in: path
+          description: Id попытки
+          type: integer
+          format: uint64
+          required: true
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Возвращаемые ответы
+          schema: 
+            $ref: '#/definitions/testAzbel'
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+  /user/attempt/{attempt_id}/klimov_test:
+    get:
+      tags:
+        - user
+      operationId: userAttemptAttemptIdKlimovTestGet
+      summary: Запрос на получение ответов на тест климова от пользователя
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt access auth
+          required: true
+        - name: attempt_id
+          in: path
+          description: Id попытки
+          type: integer
+          format: uint64
+          required: true
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Возвращаемые ответы
+          schema:
+            $ref: '#/definitions/testKlimov'
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+  
+  /user/attempt/{attempt_id}/answer:
+    put:
+      tags:
+        - user
+      operationId: userAttemptAttemptIdAnswerPut
+      summary: Запрос на заполнение ответами попытки прохождения теста
+      consumes:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt access auth
+          required: true
+        - name: attempt_id
+          in: path
+          type: integer
+          format: uint64
+          required: true
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              question_id:
+                type: integer
+                format: uint64
+              user_answer:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+                  minimum: 0
+          required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+    get:
+      tags:
+        - user
+      operationId: userAttemptAttemptIdAnswerGet
+      summary: Запрос на получение ответов по попытке от пользователя
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt access auth
+          required: true
+        - name: attempt_id
+          in: path
+          required: true
+          type: integer
+          format: uint64
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                question_id:
+                  type: integer
+                  format: uint64
+                user_answer:
+                  type: array
+                  items:
+                    type: integer
+                    format: int64
+                    minimum: 0
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+  
+  /achievement/type:
+    get:
+      tags:
+        - achievement
+      operationId: achievementTypeGet
+      summary: Запрос на поиск типов достижения
+      parameters:
+        - name: achive_id
+          in: query
+          description: Поиск по id типа достижения
+          type: integer
+          format: uint64
+          required: false
+        - name: name
+          in: query
+          description: Поиск по имени типа достижения
+          type: string
+          required: false
+      produces:
+        - application/json
+      responses:
+        200:
+          description: информация о типах достижений успешно получена
+          schema: 
+            type: array
+            items:
+              type: object
+              properties:
+                achive_type_id:
+                  type: integer
+                  format: uint64
+                achive_type_name:
+                  type: string
+
+  
+  /test:
+    get:
+      tags:
+        - test
+      operationId: testGet
+      summary: Вернуть главную информацию по тестам 
+      x-swagger-router-controller: "ControllerName"
+      produces:
+        - application/json
+      responses: 
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                test_id:
+                  type: integer
+                  format: uint64
+                name:
+                  type: string
+                content:
+                  type: string
+                description:
+                  type: string
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+
+  /test/{test_id}/questions:
+    get:
+      tags:
+        - test
+      operationId: testTestIdQuestionGet
+      summary: Запрос на получение списка всех вопросов по тесту
+      parameters:
+        - name: test_id
+          in: path
+          description: имя теста по которому мы делаем запрос
+          type: integer
+          format: uint64
+          required: true
+      produces:
+        - application/json
+      responses:
+        200:
+          description: ОК
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                question_id:
+                  type: integer
+                  format: uint64
+                content: 
+                  type: string
+                button_type:
+                  type: integer
+                  format: uint64
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      content:
+                        type: string
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+  /attempt:
+    post:
+      tags: 
+        - attempt
+      operationId: attemptPost
+      summary: Запрос на создание совой попытки
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              test_id:
+                type: integer
+                format: uint64
+              user_id:
+                type: integer
+                format: uint64
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+  
+  /attempt/{attempt_id}/close:
+    patch:
+      tags:
+        - attempt
+      operationId: attemptAttemptIdClosePatch
+      summary: Запрос на обработку ответов по попытке и её закрытие
+      parameters:
+        - name: attempt_id
+          in: path
+          description: Id попытки тестирования пользователя
+          required: true
+          type: integer
+          format: uint64
+      produces:
+        - application/json
+      responses:
+        200:
+          description: ОК
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+
+  /mail/user:
+    post:
+      # СОЗДАТЬ ВЕРЕФИКАЦИЮ ПО EMAIL
+      tags:
+        - mail
+      operationId: mailUserPost
+      summary: Запрос на создание письма верефикации по email для пользователя
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required: 
+              - role
+              - email
+              - login
+              - name
+              - surname
+              - password
+            properties:
+              role:
+                type: string
+              email:
+                type: string
+              login:
+                type: string
+              name:
+                type: string
+              surname:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              success:
+                type: string
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+
+    get:
+      tags:
+        - mail
+      operationId: mailUserGet
+      summary: Запрос на подтверждение верефикации по mail
+      parameters:
+        - name: accept_token
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema: 
+            type: object
+            properties:
+              user_id:
+                type: integer
+                format: uint64
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+  /logs:
+    get:
+      tags:
+        - logs
+      operationId: logsGet
+      summary: Получить логи сервиса
+      responses:
+        200:
+          description: OK
+          schema: 
+            type: array
+            items:
+              type: object
+              properties:
+                level:
+                  format: string
+                msg:
+                  format: string
+                time:
+                  format: string
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+# [ СХЕМЫ ]
+definitions:
+  error_500:
+    type: object
+    properties:
+      error:  
+        type: string
+
+  testKlimov:
+    type: object
+    required:
+      - human_sign
+      - human_human
+      - human_nature
+      - human_technic
+      - human_sign_system
+    properties:
+      human_sign: 
+        type: integer
+        format: uint64
+      human_human: 
+        type: integer
+        format: uint64
+      human_nature: 
+        type: integer
+        format: uint64
+      human_technic: 
+        type: integer
+        format: uint64
+      human_sign_system:
+        type: integer
+        format: uint64
+
+  testAzbel:
+    type: object
+    properties:
+      physics_maths: 
+        type: integer
+        format: uint64
+      biology_chemistry: 
+        type: integer
+        format: uint64
+      tourism: 
+        type: integer
+        format: uint64
+      medicine: 
+        type: integer
+        format: uint64
+      information_technology:
+        type: integer
+        format: uint64
+      construction:
+        type: integer
+        format: uint64
+      engineering_and_technical_sphere:
+        type: integer
+        format: uint64
+      economics_finance:
+        type: integer
+        format: uint64
+      business_management:
+        type: integer
+        format: uint64
+      foreign_languages:
+        type: integer
+        format: uint64
+      transport_logistics:
+        type: integer
+        format: uint64
+      strong_structure:
+        type: integer
+        format: uint64
+      socio_political_sphere:
+        type: integer
+        format: uint64
+      journalism:
+        type: integer
+        format: uint64
+      jurisprudence:
+        type: integer
+        format: uint64
+      education:
+        type: integer
+        format: uint64
+      service_sector_trade:
+        type: integer
+        format: uint64
+      physical_education_and_sports:
+        type: integer
+        format: uint64
+      musical_and_performing_arts:
+        type: integer
+        format: uint64
+      fine_arts_design:
+        type: integer
+        format: uint64

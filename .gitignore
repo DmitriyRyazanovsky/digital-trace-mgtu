@@ -1,0 +1,6 @@
+secret/
+logs/
+backend-service.tar
+backend-service.tar.gz
+service
+*.http
