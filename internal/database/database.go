@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"encoding/base64"
 	"fmt"
 	"mgtu/digital-trace/main-backend-service/internal/features"
 
@@ -56,20 +57,23 @@ func generateLink(database string, passwordFilePath string, userName string, url
 		return "", err
 	}
 
-	if isCreated {
-		bytes, err := features.GenerateRandomBytes(32)
+	if !isCreated {
+		bytes, err := features.GenerateRandomBytes(64)
 		if err != nil {
 			err = errors.Wrap(err, "[features.GenerateRandomBytes(32)]")
 			return "", err
 		}
 
-		err = features.WriteContentInFile(passwordFilePath, string(bytes))
+		// Кодирование случайных байт в base64 для создания пароля
+		password := base64.URLEncoding.EncodeToString(bytes)
+
+		err = features.WriteContentInFile(passwordFilePath, password)
 		if err != nil {
 			err = errors.Wrap(err, "[features.WriteContentInFile(passwordFilePath, string(bytes))]")
 			return "", err
 		}
 
-		fmt.Printf("GENERATED SECRET PASS FOR DATABASE: '%s'\n", string(bytes))
+		fmt.Printf("GENERATED SECRET PASS FOR DATABASE: '%s'\n", password)
 	}
 
 	password, err := features.ReadContentFromFile(passwordFilePath)
