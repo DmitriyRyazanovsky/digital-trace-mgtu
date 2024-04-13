@@ -6,6 +6,7 @@ package user
 // Editing this file might prove futile when you re-run the generate command
 
 import (
+	"context"
 	"net/http"
 	"strconv"
 
@@ -35,7 +36,7 @@ func NewUserAchievementPost(ctx *middleware.Context, handler UserAchievementPost
 }
 
 /*
-UserAchievementPost swagger:route POST /user/achievement user userAchievementPost
+	UserAchievementPost swagger:route POST /user/achievement user userAchievementPost
 
 Запрос на добавление достижения пользователю
 */
@@ -47,17 +48,15 @@ type UserAchievementPost struct {
 func (o *UserAchievementPost) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUserAchievementPostParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -89,7 +88,6 @@ func (o *UserAchievementPostBody) Validate(formats strfmt.Registry) error {
 }
 
 func (o *UserAchievementPostBody) validateAchiveTypes(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.AchiveTypes) { // not required
 		return nil
 	}
@@ -99,12 +97,17 @@ func (o *UserAchievementPostBody) validateAchiveTypes(formats strfmt.Registry) e
 			continue
 		}
 
-		if err := validate.MinimumInt("body"+"."+"achive_types"+"."+strconv.Itoa(i), "body", int64(*o.AchiveTypes[i]), 0, false); err != nil {
+		if err := validate.MinimumInt("body"+"."+"achive_types"+"."+strconv.Itoa(i), "body", *o.AchiveTypes[i], 0, false); err != nil {
 			return err
 		}
 
 	}
 
+	return nil
+}
+
+// ContextValidate validates this user achievement post body based on context it is used
+func (o *UserAchievementPostBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

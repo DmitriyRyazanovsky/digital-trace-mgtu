@@ -14,18 +14,19 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// NewUserProfileParams creates a new UserProfileParams object
-// no default values defined in spec.
-func NewUserProfileParams() UserProfileParams {
+// NewUserProfileGetParams creates a new UserProfileGetParams object
+//
+// There are no default values defined in the spec.
+func NewUserProfileGetParams() UserProfileGetParams {
 
-	return UserProfileParams{}
+	return UserProfileGetParams{}
 }
 
-// UserProfileParams contains all the bound params for the user profile operation
+// UserProfileGetParams contains all the bound params for the user profile get operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters userProfile
-type UserProfileParams struct {
+// swagger:parameters user_profile_get
+type UserProfileGetParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -40,8 +41,8 @@ type UserProfileParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewUserProfileParams() beforehand.
-func (o *UserProfileParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewUserProfileGetParams() beforehand.
+func (o *UserProfileGetParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -49,7 +50,6 @@ func (o *UserProfileParams) BindRequest(r *http.Request, route *middleware.Match
 	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -57,7 +57,7 @@ func (o *UserProfileParams) BindRequest(r *http.Request, route *middleware.Match
 }
 
 // bindAuthorization binds and validates parameter Authorization from header.
-func (o *UserProfileParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *UserProfileGetParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("Authorization", "header", rawData)
 	}
@@ -71,7 +71,6 @@ func (o *UserProfileParams) bindAuthorization(rawData []string, hasKey bool, for
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
-
 	o.Authorization = raw
 
 	return nil

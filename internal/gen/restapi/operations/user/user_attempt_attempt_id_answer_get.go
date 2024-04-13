@@ -6,6 +6,7 @@ package user
 // Editing this file might prove futile when you re-run the generate command
 
 import (
+	"context"
 	"net/http"
 	"strconv"
 
@@ -35,7 +36,7 @@ func NewUserAttemptAttemptIDAnswerGet(ctx *middleware.Context, handler UserAttem
 }
 
 /*
-UserAttemptAttemptIDAnswerGet swagger:route GET /user/attempt/{attempt_id}/answer user userAttemptAttemptIdAnswerGet
+	UserAttemptAttemptIDAnswerGet swagger:route GET /user/attempt/{attempt_id}/answer user userAttemptAttemptIdAnswerGet
 
 Запрос на получение ответов по попытке от пользователя
 */
@@ -47,17 +48,15 @@ type UserAttemptAttemptIDAnswerGet struct {
 func (o *UserAttemptAttemptIDAnswerGet) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUserAttemptAttemptIDAnswerGetParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -89,7 +88,6 @@ func (o *UserAttemptAttemptIDAnswerGetOKBodyItems0) Validate(formats strfmt.Regi
 }
 
 func (o *UserAttemptAttemptIDAnswerGetOKBodyItems0) validateUserAnswer(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.UserAnswer) { // not required
 		return nil
 	}
@@ -99,12 +97,17 @@ func (o *UserAttemptAttemptIDAnswerGetOKBodyItems0) validateUserAnswer(formats s
 			continue
 		}
 
-		if err := validate.MinimumInt("user_answer"+"."+strconv.Itoa(i), "body", int64(*o.UserAnswer[i]), 0, false); err != nil {
+		if err := validate.MinimumInt("user_answer"+"."+strconv.Itoa(i), "body", *o.UserAnswer[i], 0, false); err != nil {
 			return err
 		}
 
 	}
 
+	return nil
+}
+
+// ContextValidate validates this user attempt attempt ID answer get o k body items0 based on context it is used
+func (o *UserAttemptAttemptIDAnswerGetOKBodyItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

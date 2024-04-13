@@ -6,6 +6,7 @@ package user
 // Editing this file might prove futile when you re-run the generate command
 
 import (
+	"context"
 	"net/http"
 	"strconv"
 
@@ -35,7 +36,7 @@ func NewUserAchievementGet(ctx *middleware.Context, handler UserAchievementGetHa
 }
 
 /*
-UserAchievementGet swagger:route GET /user/achievement user userAchievementGet
+	UserAchievementGet swagger:route GET /user/achievement user userAchievementGet
 
 Запрос на получение информации о достижениях пользователя
 */
@@ -47,17 +48,15 @@ type UserAchievementGet struct {
 func (o *UserAchievementGet) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUserAchievementGetParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -89,7 +88,6 @@ func (o *UserAchievementGetOKBodyItems0) Validate(formats strfmt.Registry) error
 }
 
 func (o *UserAchievementGetOKBodyItems0) validateAchievementTypes(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.AchievementTypes) { // not required
 		return nil
 	}
@@ -103,6 +101,47 @@ func (o *UserAchievementGetOKBodyItems0) validateAchievementTypes(formats strfmt
 			if err := o.AchievementTypes[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("achievement_types" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("achievement_types" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this user achievement get o k body items0 based on the context it is used
+func (o *UserAchievementGetOKBodyItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateAchievementTypes(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *UserAchievementGetOKBodyItems0) contextValidateAchievementTypes(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.AchievementTypes); i++ {
+
+		if o.AchievementTypes[i] != nil {
+
+			if swag.IsZero(o.AchievementTypes[i]) { // not required
+				return nil
+			}
+
+			if err := o.AchievementTypes[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("achievement_types" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("achievement_types" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -156,15 +195,19 @@ func (o *UserAchievementGetOKBodyItems0AchievementTypesItems0) Validate(formats 
 }
 
 func (o *UserAchievementGetOKBodyItems0AchievementTypesItems0) validateAchievementTypeID(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.AchievementTypeID) { // not required
 		return nil
 	}
 
-	if err := validate.MinimumInt("achievement_type_id", "body", int64(*o.AchievementTypeID), 0, false); err != nil {
+	if err := validate.MinimumInt("achievement_type_id", "body", *o.AchievementTypeID, 0, false); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this user achievement get o k body items0 achievement types items0 based on context it is used
+func (o *UserAchievementGetOKBodyItems0AchievementTypesItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

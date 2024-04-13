@@ -57,4 +57,6 @@ func (h *Handler) Register(api *operations.BackendServiceAPI) {
 	api.UserUserAttemptGetHandler = user.UserAttemptGetHandlerFunc(h.userAttemptGet)
 	api.UserUserAvatarPutHandler = user.UserAvatarPutHandlerFunc(h.userAvatarPut)
 	api.UserUserAvatarGetHandler = user.UserAvatarGetHandlerFunc(h.userAvatarGet)
+	api.TestGetAllUsersGetHandler = test.GetAllUsersGetHandlerFunc(h.getAllUsersGet)
+	api.UserUserProfileGetHandler = user.UserProfileGetHandlerFunc(h.userProfileGet)
 }

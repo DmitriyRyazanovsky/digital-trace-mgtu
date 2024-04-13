@@ -30,7 +30,7 @@ func NewUserAvatarGet(ctx *middleware.Context, handler UserAvatarGetHandler) *Us
 }
 
 /*
-UserAvatarGet swagger:route GET /user/avatar user userAvatarGet
+	UserAvatarGet swagger:route GET /user/avatar user userAvatarGet
 
 Запрос на добавление фотографии пользователя
 */
@@ -42,17 +42,15 @@ type UserAvatarGet struct {
 func (o *UserAvatarGet) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUserAvatarGetParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

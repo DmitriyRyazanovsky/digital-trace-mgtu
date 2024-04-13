@@ -15,7 +15,8 @@ import (
 )
 
 // NewTestTestIDQuestionGetParams creates a new TestTestIDQuestionGetParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewTestTestIDQuestionGetParams() TestTestIDQuestionGetParams {
 
 	return TestTestIDQuestionGetParams{}
@@ -50,7 +51,6 @@ func (o *TestTestIDQuestionGetParams) BindRequest(r *http.Request, route *middle
 	if err := o.bindTestID(rTestID, rhkTestID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}

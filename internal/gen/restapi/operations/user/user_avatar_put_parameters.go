@@ -17,7 +17,8 @@ import (
 )
 
 // NewUserAvatarPutParams creates a new UserAvatarPutParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUserAvatarPutParams() UserAvatarPutParams {
 
 	return UserAvatarPutParams{}
@@ -72,6 +73,11 @@ func (o *UserAvatarPutParams) BindRequest(r *http.Request, route *middleware.Mat
 				res = append(res, err)
 			}
 
+			ctx := validate.WithOperationRequest(r.Context())
+			if err := body.ContextValidate(ctx, route.Formats); err != nil {
+				res = append(res, err)
+			}
+
 			if len(res) == 0 {
 				o.Body = body
 			}
@@ -100,7 +106,6 @@ func (o *UserAvatarPutParams) bindAuthorization(rawData []string, hasKey bool, f
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
-
 	o.Authorization = raw
 
 	return nil

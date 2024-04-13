@@ -16,7 +16,8 @@ import (
 )
 
 // NewUserAttemptAttemptIDKlimovTestGetParams creates a new UserAttemptAttemptIDKlimovTestGetParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUserAttemptAttemptIDKlimovTestGetParams() UserAttemptAttemptIDKlimovTestGetParams {
 
 	return UserAttemptAttemptIDKlimovTestGetParams{}
@@ -60,7 +61,6 @@ func (o *UserAttemptAttemptIDKlimovTestGetParams) BindRequest(r *http.Request, r
 	if err := o.bindAttemptID(rAttemptID, rhkAttemptID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -82,7 +82,6 @@ func (o *UserAttemptAttemptIDKlimovTestGetParams) bindAuthorization(rawData []st
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
-
 	o.Authorization = raw
 
 	return nil
