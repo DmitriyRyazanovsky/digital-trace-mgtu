@@ -345,7 +345,7 @@ paths:
               updated_at:
                 type: string
                 format: date-time
-              roleId:
+              role_id:
                 type: integer
                 format: uint64
               email:
@@ -928,56 +928,6 @@ paths:
           description: Ошибка сервера
           schema:
             $ref: '#/definitions/error_500'
-
-  /get_all_users:
-    get:
-      tags:
-        - test
-      operationId: get_all_users_get
-      summary: Полуение всех пользователей
-      parameters:
-        - name: id
-          in: query
-          type: integer
-          format: uint64
-          required: false
-      responses:
-        200:
-          description: OK
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                id: 
-                  type: integer
-                  minimum: 5
-                  format: uint64
-                created_at:
-                  type: string
-                  format: date-time
-                updated_at:
-                  type: string
-                  format: date-time
-                roleId:
-                  type: integer
-                  format: uint64
-                email:
-                  type: string
-                  format: email
-                login:
-                  type: string
-                name:
-                  type: string
-                surname:
-                  type: string
-                password:
-                  type: string
-        500:
-          description: Ошибка сервера
-          schema:
-            $ref: '#/definitions/error_500'
-
 
 # [ СХЕМЫ ]
 definitions:
