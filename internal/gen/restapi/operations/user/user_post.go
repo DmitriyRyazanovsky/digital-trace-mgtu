@@ -6,6 +6,7 @@ package user
 // Editing this file might prove futile when you re-run the generate command
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/go-openapi/errors"
@@ -34,7 +35,7 @@ func NewUserPost(ctx *middleware.Context, handler UserPostHandler) *UserPost {
 }
 
 /*
-UserPost swagger:route POST /user user userPost
+	UserPost swagger:route POST /user user userPost
 
 Запрос на добавление нового пользователя
 */
@@ -46,17 +47,15 @@ type UserPost struct {
 func (o *UserPost) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUserPostParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -179,6 +178,11 @@ func (o *UserPostBody) validateSurname(formats strfmt.Registry) error {
 	return nil
 }
 
+// ContextValidate validates this user post body based on context it is used
+func (o *UserPostBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	return nil
+}
+
 // MarshalBinary interface implementation
 func (o *UserPostBody) MarshalBinary() ([]byte, error) {
 	if o == nil {
@@ -208,6 +212,11 @@ type UserPostOKBody struct {
 
 // Validate validates this user post o k body
 func (o *UserPostOKBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this user post o k body based on context it is used
+func (o *UserPostOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

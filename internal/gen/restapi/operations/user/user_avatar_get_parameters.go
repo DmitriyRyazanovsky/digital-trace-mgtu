@@ -15,7 +15,8 @@ import (
 )
 
 // NewUserAvatarGetParams creates a new UserAvatarGetParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUserAvatarGetParams() UserAvatarGetParams {
 
 	return UserAvatarGetParams{}
@@ -49,7 +50,6 @@ func (o *UserAvatarGetParams) BindRequest(r *http.Request, route *middleware.Mat
 	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -71,7 +71,6 @@ func (o *UserAvatarGetParams) bindAuthorization(rawData []string, hasKey bool, f
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
-
 	o.Authorization = raw
 
 	return nil

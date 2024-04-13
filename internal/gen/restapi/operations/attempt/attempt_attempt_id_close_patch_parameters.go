@@ -15,7 +15,8 @@ import (
 )
 
 // NewAttemptAttemptIDClosePatchParams creates a new AttemptAttemptIDClosePatchParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewAttemptAttemptIDClosePatchParams() AttemptAttemptIDClosePatchParams {
 
 	return AttemptAttemptIDClosePatchParams{}
@@ -50,7 +51,6 @@ func (o *AttemptAttemptIDClosePatchParams) BindRequest(r *http.Request, route *m
 	if err := o.bindAttemptID(rAttemptID, rhkAttemptID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}

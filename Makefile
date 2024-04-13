@@ -41,6 +41,9 @@ docker-build+restart:
 	make docker-build &&\
 	make docker-restart
 
+docker-run-dev:
+	docker run -v $(PWD)/user:/app/user -v $(PWD)/secret/:/app/secret/ -v $(PWD)/configs/dev.yml:/app/configs/config.yml -v $(PWD)/logs:/app/logs --network host -p $(SERVICE_PORT):$(SERVICE_PORT) -d --restart=always --name $(SERVICE_NAME) $(SERVICE_NAME)
+
 docker-run-stage:
 	docker run -v $(PWD)/user:/app/user -v $(PWD)/secret/:/app/secret/ -v $(PWD)/configs/stage.yml:/app/configs/config.yml -v $(PWD)/logs:/app/logs --network host -p $(SERVICE_PORT):$(SERVICE_PORT) -d --restart=always --name $(SERVICE_NAME) $(SERVICE_NAME)
 

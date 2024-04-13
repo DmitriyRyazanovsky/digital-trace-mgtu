@@ -208,6 +208,75 @@ func init() {
         }
       }
     },
+    "/get_all_users": {
+      "get": {
+        "tags": [
+          "test"
+        ],
+        "summary": "Полуение всех пользователей",
+        "operationId": "get_all_users_get",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "uint64",
+            "name": "id",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "id": {
+                    "type": "integer",
+                    "format": "uint64",
+                    "minimum": 5
+                  },
+                  "login": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "roleId": {
+                    "type": "integer",
+                    "format": "uint64"
+                  },
+                  "surname": {
+                    "type": "string"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "schema": {
+              "$ref": "#/definitions/error_500"
+            }
+          }
+        }
+      }
+    },
     "/logs": {
       "get": {
         "tags": [
@@ -1245,8 +1314,8 @@ func init() {
         "tags": [
           "user"
         ],
-        "summary": "Запрос на поиск информации о пользователях",
-        "operationId": "userProfile",
+        "summary": "Запрос на получение личной информации о пользователе по acces токену",
+        "operationId": "user_profile_get",
         "parameters": [
           {
             "type": "string",
@@ -1258,7 +1327,7 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "информация о достижениях успешно получена",
+            "description": "OK",
             "schema": {
               "type": "object",
               "properties": {
@@ -1267,7 +1336,8 @@ func init() {
                   "format": "date-time"
                 },
                 "email": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "email"
                 },
                 "id": {
                   "type": "integer",
@@ -1279,7 +1349,10 @@ func init() {
                 "name": {
                   "type": "string"
                 },
-                "role_id": {
+                "password": {
+                  "type": "string"
+                },
+                "roleId": {
                   "type": "integer",
                   "format": "uint64"
                 },
@@ -1294,7 +1367,7 @@ func init() {
             }
           },
           "500": {
-            "description": "Ошибка сервера либо запроса",
+            "description": "Ошибка сервера",
             "schema": {
               "$ref": "#/definitions/error_500"
             }
@@ -1635,6 +1708,40 @@ func init() {
                 "refresh_token": {
                   "type": "string"
                 }
+              }
+            }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "schema": {
+              "$ref": "#/definitions/error_500"
+            }
+          }
+        }
+      }
+    },
+    "/get_all_users": {
+      "get": {
+        "tags": [
+          "test"
+        ],
+        "summary": "Полуение всех пользователей",
+        "operationId": "get_all_users_get",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "uint64",
+            "name": "id",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetAllUsersGetOKBodyItems0"
               }
             }
           },
@@ -2573,8 +2680,8 @@ func init() {
         "tags": [
           "user"
         ],
-        "summary": "Запрос на поиск информации о пользователях",
-        "operationId": "userProfile",
+        "summary": "Запрос на получение личной информации о пользователе по acces токену",
+        "operationId": "user_profile_get",
         "parameters": [
           {
             "type": "string",
@@ -2586,7 +2693,7 @@ func init() {
         ],
         "responses": {
           "200": {
-            "description": "информация о достижениях успешно получена",
+            "description": "OK",
             "schema": {
               "type": "object",
               "properties": {
@@ -2595,7 +2702,8 @@ func init() {
                   "format": "date-time"
                 },
                 "email": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "email"
                 },
                 "id": {
                   "type": "integer",
@@ -2607,7 +2715,10 @@ func init() {
                 "name": {
                   "type": "string"
                 },
-                "role_id": {
+                "password": {
+                  "type": "string"
+                },
+                "roleId": {
                   "type": "integer",
                   "format": "uint64"
                 },
@@ -2622,7 +2733,7 @@ func init() {
             }
           },
           "500": {
-            "description": "Ошибка сервера либо запроса",
+            "description": "Ошибка сервера",
             "schema": {
               "$ref": "#/definitions/error_500"
             }
@@ -2641,6 +2752,44 @@ func init() {
         },
         "achive_type_name": {
           "type": "string"
+        }
+      }
+    },
+    "GetAllUsersGetOKBodyItems0": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "id": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 5
+        },
+        "login": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "roleId": {
+          "type": "integer",
+          "format": "uint64"
+        },
+        "surname": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
         }
       }
     },

@@ -12,10 +12,12 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/validate"
 )
 
 // NewAttemptPostParams creates a new AttemptPostParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewAttemptPostParams() AttemptPostParams {
 
 	return AttemptPostParams{}
@@ -58,6 +60,11 @@ func (o *AttemptPostParams) BindRequest(r *http.Request, route *middleware.Match
 		} else {
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
+				res = append(res, err)
+			}
+
+			ctx := validate.WithOperationRequest(r.Context())
+			if err := body.ContextValidate(ctx, route.Formats); err != nil {
 				res = append(res, err)
 			}
 

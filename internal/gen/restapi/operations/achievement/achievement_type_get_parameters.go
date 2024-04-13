@@ -16,7 +16,8 @@ import (
 )
 
 // NewAchievementTypeGetParams creates a new AchievementTypeGetParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewAchievementTypeGetParams() AchievementTypeGetParams {
 
 	return AchievementTypeGetParams{}
@@ -61,7 +62,6 @@ func (o *AchievementTypeGetParams) BindRequest(r *http.Request, route *middlewar
 	if err := o.bindName(qName, qhkName, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -77,6 +77,7 @@ func (o *AchievementTypeGetParams) bindAchiveID(rawData []string, hasKey bool, f
 
 	// Required: false
 	// AllowEmptyValue: false
+
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
@@ -99,10 +100,10 @@ func (o *AchievementTypeGetParams) bindName(rawData []string, hasKey bool, forma
 
 	// Required: false
 	// AllowEmptyValue: false
+
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-
 	o.Name = &raw
 
 	return nil

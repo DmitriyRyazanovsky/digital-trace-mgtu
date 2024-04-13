@@ -30,7 +30,7 @@ func NewUserAttemptAttemptIDAzbelTestGet(ctx *middleware.Context, handler UserAt
 }
 
 /*
-UserAttemptAttemptIDAzbelTestGet swagger:route GET /user/attempt/{attempt_id}/azbel_test user userAttemptAttemptIdAzbelTestGet
+	UserAttemptAttemptIDAzbelTestGet swagger:route GET /user/attempt/{attempt_id}/azbel_test user userAttemptAttemptIdAzbelTestGet
 
 Запрос на получение ответов на тест интересов от азбеля
 */
@@ -42,17 +42,15 @@ type UserAttemptAttemptIDAzbelTestGet struct {
 func (o *UserAttemptAttemptIDAzbelTestGet) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUserAttemptAttemptIDAzbelTestGetParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

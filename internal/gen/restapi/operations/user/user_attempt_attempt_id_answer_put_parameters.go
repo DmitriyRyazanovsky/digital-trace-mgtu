@@ -18,7 +18,8 @@ import (
 )
 
 // NewUserAttemptAttemptIDAnswerPutParams creates a new UserAttemptAttemptIDAnswerPutParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUserAttemptAttemptIDAnswerPutParams() UserAttemptAttemptIDAnswerPutParams {
 
 	return UserAttemptAttemptIDAnswerPutParams{}
@@ -83,6 +84,11 @@ func (o *UserAttemptAttemptIDAnswerPutParams) BindRequest(r *http.Request, route
 				res = append(res, err)
 			}
 
+			ctx := validate.WithOperationRequest(r.Context())
+			if err := body.ContextValidate(ctx, route.Formats); err != nil {
+				res = append(res, err)
+			}
+
 			if len(res) == 0 {
 				o.Body = body
 			}
@@ -111,7 +117,6 @@ func (o *UserAttemptAttemptIDAnswerPutParams) bindAuthorization(rawData []string
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
-
 	o.Authorization = raw
 
 	return nil

@@ -320,8 +320,8 @@ paths:
     get:
       tags:
         - user
-      operationId: userProfile
-      summary: Запрос на поиск информации о пользователях
+      operationId: user_profile_get
+      summary: Запрос на получение личной информации о пользователе по acces токену
       parameters:
         - name: Authorization
           in: header
@@ -329,13 +329,13 @@ paths:
           description: jwt auth
           required: true
       produces:
-      - application/json
+        - application/json
       responses:
         200:
-          description: информация о достижениях успешно получена
-          schema: 
+          description: OK
+          schema:
             type: object
-            properties:
+            properties: 
               id: 
                 type: integer
                 format: uint64
@@ -350,16 +350,22 @@ paths:
                 format: uint64
               email:
                 type: string
+                format: email
               login:
                 type: string
               name:
                 type: string
               surname:
                 type: string
+              password:
+                type: string
         500:
-          description: Ошибка сервера либо запроса
+          description: Ошибка сервера
           schema:
             $ref: '#/definitions/error_500'
+
+
+
 
 
   /user/achievement:

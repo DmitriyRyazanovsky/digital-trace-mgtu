@@ -16,7 +16,8 @@ import (
 )
 
 // NewUserAchievementAchiveIDImageGetParams creates a new UserAchievementAchiveIDImageGetParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUserAchievementAchiveIDImageGetParams() UserAchievementAchiveIDImageGetParams {
 
 	return UserAchievementAchiveIDImageGetParams{}
@@ -60,7 +61,6 @@ func (o *UserAchievementAchiveIDImageGetParams) BindRequest(r *http.Request, rou
 	if err := o.bindAchiveID(rAchiveID, rhkAchiveID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -82,7 +82,6 @@ func (o *UserAchievementAchiveIDImageGetParams) bindAuthorization(rawData []stri
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
-
 	o.Authorization = raw
 
 	return nil

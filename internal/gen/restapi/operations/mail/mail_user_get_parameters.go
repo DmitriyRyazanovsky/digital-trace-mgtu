@@ -16,7 +16,8 @@ import (
 )
 
 // NewMailUserGetParams creates a new MailUserGetParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewMailUserGetParams() MailUserGetParams {
 
 	return MailUserGetParams{}
@@ -53,7 +54,6 @@ func (o *MailUserGetParams) BindRequest(r *http.Request, route *middleware.Match
 	if err := o.bindAcceptToken(qAcceptToken, qhkAcceptToken, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -72,10 +72,10 @@ func (o *MailUserGetParams) bindAcceptToken(rawData []string, hasKey bool, forma
 
 	// Required: true
 	// AllowEmptyValue: false
+
 	if err := validate.RequiredString("accept_token", "query", raw); err != nil {
 		return err
 	}
-
 	o.AcceptToken = raw
 
 	return nil

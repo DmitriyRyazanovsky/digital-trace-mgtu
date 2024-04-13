@@ -17,7 +17,8 @@ import (
 )
 
 // NewUserAchievementPostParams creates a new UserAchievementPostParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUserAchievementPostParams() UserAchievementPostParams {
 
 	return UserAchievementPostParams{}
@@ -72,6 +73,11 @@ func (o *UserAchievementPostParams) BindRequest(r *http.Request, route *middlewa
 				res = append(res, err)
 			}
 
+			ctx := validate.WithOperationRequest(r.Context())
+			if err := body.ContextValidate(ctx, route.Formats); err != nil {
+				res = append(res, err)
+			}
+
 			if len(res) == 0 {
 				o.Body = body
 			}
@@ -100,7 +106,6 @@ func (o *UserAchievementPostParams) bindAuthorization(rawData []string, hasKey b
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
-
 	o.Authorization = raw
 
 	return nil

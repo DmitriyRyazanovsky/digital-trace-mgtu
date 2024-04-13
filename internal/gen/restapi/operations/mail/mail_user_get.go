@@ -6,6 +6,7 @@ package mail
 // Editing this file might prove futile when you re-run the generate command
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -32,7 +33,7 @@ func NewMailUserGet(ctx *middleware.Context, handler MailUserGetHandler) *MailUs
 }
 
 /*
-MailUserGet swagger:route GET /mail/user mail mailUserGet
+	MailUserGet swagger:route GET /mail/user mail mailUserGet
 
 Запрос на подтверждение верефикации по mail
 */
@@ -44,17 +45,15 @@ type MailUserGet struct {
 func (o *MailUserGet) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewMailUserGetParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -70,6 +69,11 @@ type MailUserGetOKBody struct {
 
 // Validate validates this mail user get o k body
 func (o *MailUserGetOKBody) Validate(formats strfmt.Registry) error {
+	return nil
+}
+
+// ContextValidate validates this mail user get o k body based on context it is used
+func (o *MailUserGetOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

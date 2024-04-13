@@ -65,6 +65,9 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		AuthAuthPostHandler: auth.AuthPostHandlerFunc(func(params auth.AuthPostParams) middleware.Responder {
 			return middleware.NotImplemented("operation auth.AuthPost has not yet been implemented")
 		}),
+		TestGetAllUsersGetHandler: test.GetAllUsersGetHandlerFunc(func(params test.GetAllUsersGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation test.GetAllUsersGet has not yet been implemented")
+		}),
 		LogsLogsGetHandler: logs.LogsGetHandlerFunc(func(params logs.LogsGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation logs.LogsGet has not yet been implemented")
 		}),
@@ -113,9 +116,6 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		UserUserPostHandler: user.UserPostHandlerFunc(func(params user.UserPostParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UserPost has not yet been implemented")
 		}),
-		UserUserProfileHandler: user.UserProfileHandlerFunc(func(params user.UserProfileParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserProfile has not yet been implemented")
-		}),
 		UserUserAchievementAchiveIDImageGetHandler: user.UserAchievementAchiveIDImageGetHandlerFunc(func(params user.UserAchievementAchiveIDImageGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UserAchievementAchiveIDImageGet has not yet been implemented")
 		}),
@@ -124,6 +124,9 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		}),
 		UserUserAvatarPutHandler: user.UserAvatarPutHandlerFunc(func(params user.UserAvatarPutParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UserAvatarPut has not yet been implemented")
+		}),
+		UserUserProfileGetHandler: user.UserProfileGetHandlerFunc(func(params user.UserProfileGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation user.UserProfileGet has not yet been implemented")
 		}),
 	}
 }
@@ -144,9 +147,11 @@ type BackendServiceAPI struct {
 	// BasicAuthenticator generates a runtime.Authenticator from the supplied basic auth function.
 	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	BasicAuthenticator func(security.UserPassAuthentication) runtime.Authenticator
+
 	// APIKeyAuthenticator generates a runtime.Authenticator from the supplied token auth function.
 	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	APIKeyAuthenticator func(string, string, security.TokenAuthentication) runtime.Authenticator
+
 	// BearerAuthenticator generates a runtime.Authenticator from the supplied bearer token auth function.
 	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	BearerAuthenticator func(string, security.ScopedTokenAuthentication) runtime.Authenticator
@@ -170,6 +175,8 @@ type BackendServiceAPI struct {
 	AttemptAttemptPostHandler attempt.AttemptPostHandler
 	// AuthAuthPostHandler sets the operation handler for the auth post operation
 	AuthAuthPostHandler auth.AuthPostHandler
+	// TestGetAllUsersGetHandler sets the operation handler for the get all users get operation
+	TestGetAllUsersGetHandler test.GetAllUsersGetHandler
 	// LogsLogsGetHandler sets the operation handler for the logs get operation
 	LogsLogsGetHandler logs.LogsGetHandler
 	// MailMailUserGetHandler sets the operation handler for the mail user get operation
@@ -202,14 +209,15 @@ type BackendServiceAPI struct {
 	AllUsersUserGetHandler all_users.UserGetHandler
 	// UserUserPostHandler sets the operation handler for the user post operation
 	UserUserPostHandler user.UserPostHandler
-	// UserUserProfileHandler sets the operation handler for the user profile operation
-	UserUserProfileHandler user.UserProfileHandler
 	// UserUserAchievementAchiveIDImageGetHandler sets the operation handler for the user achievement achive Id image get operation
 	UserUserAchievementAchiveIDImageGetHandler user.UserAchievementAchiveIDImageGetHandler
 	// UserUserAvatarGetHandler sets the operation handler for the user avatar get operation
 	UserUserAvatarGetHandler user.UserAvatarGetHandler
 	// UserUserAvatarPutHandler sets the operation handler for the user avatar put operation
 	UserUserAvatarPutHandler user.UserAvatarPutHandler
+	// UserUserProfileGetHandler sets the operation handler for the user profile get operation
+	UserUserProfileGetHandler user.UserProfileGetHandler
+
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
 	ServeError func(http.ResponseWriter, *http.Request, error)
@@ -301,6 +309,9 @@ func (o *BackendServiceAPI) Validate() error {
 	if o.AuthAuthPostHandler == nil {
 		unregistered = append(unregistered, "auth.AuthPostHandler")
 	}
+	if o.TestGetAllUsersGetHandler == nil {
+		unregistered = append(unregistered, "test.GetAllUsersGetHandler")
+	}
 	if o.LogsLogsGetHandler == nil {
 		unregistered = append(unregistered, "logs.LogsGetHandler")
 	}
@@ -349,9 +360,6 @@ func (o *BackendServiceAPI) Validate() error {
 	if o.UserUserPostHandler == nil {
 		unregistered = append(unregistered, "user.UserPostHandler")
 	}
-	if o.UserUserProfileHandler == nil {
-		unregistered = append(unregistered, "user.UserProfileHandler")
-	}
 	if o.UserUserAchievementAchiveIDImageGetHandler == nil {
 		unregistered = append(unregistered, "user.UserAchievementAchiveIDImageGetHandler")
 	}
@@ -360,6 +368,9 @@ func (o *BackendServiceAPI) Validate() error {
 	}
 	if o.UserUserAvatarPutHandler == nil {
 		unregistered = append(unregistered, "user.UserAvatarPutHandler")
+	}
+	if o.UserUserProfileGetHandler == nil {
+		unregistered = append(unregistered, "user.UserProfileGetHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -470,6 +481,10 @@ func (o *BackendServiceAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/get_all_users"] = test.NewGetAllUsersGet(o.context, o.TestGetAllUsersGetHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/logs"] = logs.NewLogsGet(o.context, o.LogsLogsGetHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -534,10 +549,6 @@ func (o *BackendServiceAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/user/profile"] = user.NewUserProfile(o.context, o.UserUserProfileHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
 	o.handlers["GET"]["/user/achievement/{achive_id}/image"] = user.NewUserAchievementAchiveIDImageGet(o.context, o.UserUserAchievementAchiveIDImageGetHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -547,6 +558,10 @@ func (o *BackendServiceAPI) initHandlerCache() {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
 	o.handlers["PUT"]["/user/avatar"] = user.NewUserAvatarPut(o.context, o.UserUserAvatarPutHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/user/profile"] = user.NewUserProfileGet(o.context, o.UserUserProfileGetHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP
@@ -588,6 +603,6 @@ func (o *BackendServiceAPI) AddMiddlewareFor(method, path string, builder middle
 	}
 	o.Init()
 	if h, ok := o.handlers[um][path]; ok {
-		o.handlers[method][path] = builder(h)
+		o.handlers[um][path] = builder(h)
 	}
 }
