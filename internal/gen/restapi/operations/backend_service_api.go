@@ -65,9 +65,6 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		AuthAuthPostHandler: auth.AuthPostHandlerFunc(func(params auth.AuthPostParams) middleware.Responder {
 			return middleware.NotImplemented("operation auth.AuthPost has not yet been implemented")
 		}),
-		TestGetAllUsersGetHandler: test.GetAllUsersGetHandlerFunc(func(params test.GetAllUsersGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation test.GetAllUsersGet has not yet been implemented")
-		}),
 		LogsLogsGetHandler: logs.LogsGetHandlerFunc(func(params logs.LogsGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation logs.LogsGet has not yet been implemented")
 		}),
@@ -128,6 +125,9 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		UserUserProfileGetHandler: user.UserProfileGetHandlerFunc(func(params user.UserProfileGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UserProfileGet has not yet been implemented")
 		}),
+		UserUserProfilePatchHandler: user.UserProfilePatchHandlerFunc(func(params user.UserProfilePatchParams) middleware.Responder {
+			return middleware.NotImplemented("operation user.UserProfilePatch has not yet been implemented")
+		}),
 	}
 }
 
@@ -175,8 +175,6 @@ type BackendServiceAPI struct {
 	AttemptAttemptPostHandler attempt.AttemptPostHandler
 	// AuthAuthPostHandler sets the operation handler for the auth post operation
 	AuthAuthPostHandler auth.AuthPostHandler
-	// TestGetAllUsersGetHandler sets the operation handler for the get all users get operation
-	TestGetAllUsersGetHandler test.GetAllUsersGetHandler
 	// LogsLogsGetHandler sets the operation handler for the logs get operation
 	LogsLogsGetHandler logs.LogsGetHandler
 	// MailMailUserGetHandler sets the operation handler for the mail user get operation
@@ -217,6 +215,8 @@ type BackendServiceAPI struct {
 	UserUserAvatarPutHandler user.UserAvatarPutHandler
 	// UserUserProfileGetHandler sets the operation handler for the user profile get operation
 	UserUserProfileGetHandler user.UserProfileGetHandler
+	// UserUserProfilePatchHandler sets the operation handler for the user profile patch operation
+	UserUserProfilePatchHandler user.UserProfilePatchHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -309,9 +309,6 @@ func (o *BackendServiceAPI) Validate() error {
 	if o.AuthAuthPostHandler == nil {
 		unregistered = append(unregistered, "auth.AuthPostHandler")
 	}
-	if o.TestGetAllUsersGetHandler == nil {
-		unregistered = append(unregistered, "test.GetAllUsersGetHandler")
-	}
 	if o.LogsLogsGetHandler == nil {
 		unregistered = append(unregistered, "logs.LogsGetHandler")
 	}
@@ -371,6 +368,9 @@ func (o *BackendServiceAPI) Validate() error {
 	}
 	if o.UserUserProfileGetHandler == nil {
 		unregistered = append(unregistered, "user.UserProfileGetHandler")
+	}
+	if o.UserUserProfilePatchHandler == nil {
+		unregistered = append(unregistered, "user.UserProfilePatchHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -481,10 +481,6 @@ func (o *BackendServiceAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/get_all_users"] = test.NewGetAllUsersGet(o.context, o.TestGetAllUsersGetHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
 	o.handlers["GET"]["/logs"] = logs.NewLogsGet(o.context, o.LogsLogsGetHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -562,6 +558,10 @@ func (o *BackendServiceAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/user/profile"] = user.NewUserProfileGet(o.context, o.UserUserProfileGetHandler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/user/profile"] = user.NewUserProfilePatch(o.context, o.UserUserProfilePatchHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

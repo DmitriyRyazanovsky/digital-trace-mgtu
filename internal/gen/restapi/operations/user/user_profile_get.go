@@ -85,8 +85,8 @@ type UserProfileGetOKBody struct {
 	// password
 	Password string `json:"password,omitempty"`
 
-	// role Id
-	RoleID uint64 `json:"roleId,omitempty"`
+	// role id
+	RoleID uint64 `json:"role_id,omitempty"`
 
 	// surname
 	Surname string `json:"surname,omitempty"`
