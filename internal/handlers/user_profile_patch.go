@@ -6,7 +6,6 @@ import (
 	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/user"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
 	"github.com/pkg/errors"
 )
 
@@ -18,16 +17,6 @@ func (h *Handler) userProfilePatch500(err error) middleware.Responder {
 			Error: err.Error(),
 		},
 	)
-}
-
-type SetUser struct {
-	Email    *strfmt.Email
-	ID       *uint64
-	Login    *string
-	Name     *string
-	Password *string
-	RoleID   *uint64
-	Surname  *string
 }
 
 func (h *Handler) userProfilePatch(params user.UserProfilePatchParams) middleware.Responder {
