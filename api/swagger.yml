@@ -369,27 +369,6 @@ paths:
       operationId: user_profile_patch
       summary: Запрос на изменение данных о пользователе
       parameters:
-        - name: id
-          in: query
-          type: integer
-          format: uint64
-          description: id
-          required: false
-
-        - name: role_id
-          in: query
-          type: integer
-          format: uint64
-          description: role_id
-          required: false
-
-        - name: email
-          in: query
-          type: string
-          format: email
-          description: email
-          required: false
-
         - name: login
           in: query
           type: string
@@ -406,12 +385,6 @@ paths:
           in: query
           type: string
           description: surname
-          required: false
-
-        - name: password
-          in: query
-          type: string
-          description: password
           required: false
 
         - name: Authorization

@@ -10,7 +10,7 @@ import (
 )
 
 func (h *Handler) userProfilePatch500(err error) middleware.Responder {
-	err = errors.Wrap(err, "handler error: [userProfileGet]")
+	err = errors.Wrap(err, "handler error: [userProfilePatch]")
 	h.log.Error(err.Error())
 	return user.NewUserPostInternalServerError().WithPayload(
 		&models.Error500{
@@ -20,16 +20,6 @@ func (h *Handler) userProfilePatch500(err error) middleware.Responder {
 }
 
 func (h *Handler) userProfilePatch(params user.UserProfilePatchParams) middleware.Responder {
-	setuser := database.User{
-		Email:    (*string)(params.Email),
-		Id:       params.ID,
-		Login:    params.Login,
-		Name:     params.Name,
-		Password: params.Password,
-		RoleId:   params.RoleID,
-		Surname:  params.Surname,
-	}
-
 	claims, err := h.jwt.ValidateAccessToken(params.Authorization)
 	if err != nil {
 		err = errors.Wrap(err, "[h.jwt.ValidateAccessToken(params.Authorization)]")
@@ -42,22 +32,13 @@ func (h *Handler) userProfilePatch(params user.UserProfilePatchParams) middlewar
 		return h.userProfilePatch500(err)
 	}
 
-	findUserOut, err := h.db.ChangeUser(tx, setuser, database.User{
+	_, err = h.db.ChangeUser(tx, database.User{
+		Login:   params.Login,
+		Name:    params.Name,
+		Surname: params.Surname,
+	}, database.User{
 		Id: &claims.UserId,
 	})
-	if err != nil {
-		err = errors.Wrap(err, "[h.db.FindUser()]")
-		return h.userProfilePatch500(err)
-	}
-	if !findUserOut.IsFound {
-		err = errors.New("unable find user by id")
-		return h.userProfilePatch500(err)
-	}
-	if len(findUserOut.User) != 1 {
-		err = errors.New("len(findUserOut.User) != 1")
-		return h.userProfilePatch500(err)
-	}
-
 	err = h.db.CommitTransaction(tx)
 	if err != nil {
 		err = errors.Wrap(err, "[h.db.CommitTransaction(tx)]")

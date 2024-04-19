@@ -9,20 +9,13 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-
-	"github.com/go-openapi/strfmt"
-	"github.com/go-openapi/swag"
 )
 
 // UserProfilePatchURL generates an URL for the user profile patch operation
 type UserProfilePatchURL struct {
-	Email    *strfmt.Email
-	ID       *uint64
-	Login    *string
-	Name     *string
-	Password *string
-	RoleID   *uint64
-	Surname  *string
+	Login   *string
+	Name    *string
+	Surname *string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -58,22 +51,6 @@ func (o *UserProfilePatchURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	var emailQ string
-	if o.Email != nil {
-		emailQ = o.Email.String()
-	}
-	if emailQ != "" {
-		qs.Set("email", emailQ)
-	}
-
-	var idQ string
-	if o.ID != nil {
-		idQ = swag.FormatUint64(*o.ID)
-	}
-	if idQ != "" {
-		qs.Set("id", idQ)
-	}
-
 	var loginQ string
 	if o.Login != nil {
 		loginQ = *o.Login
@@ -88,22 +65,6 @@ func (o *UserProfilePatchURL) Build() (*url.URL, error) {
 	}
 	if nameQ != "" {
 		qs.Set("name", nameQ)
-	}
-
-	var passwordQ string
-	if o.Password != nil {
-		passwordQ = *o.Password
-	}
-	if passwordQ != "" {
-		qs.Set("password", passwordQ)
-	}
-
-	var roleIDQ string
-	if o.RoleID != nil {
-		roleIDQ = swag.FormatUint64(*o.RoleID)
-	}
-	if roleIDQ != "" {
-		qs.Set("role_id", roleIDQ)
 	}
 
 	var surnameQ string

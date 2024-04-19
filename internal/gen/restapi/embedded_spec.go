@@ -1316,27 +1316,6 @@ func init() {
         "operationId": "user_profile_patch",
         "parameters": [
           {
-            "type": "integer",
-            "format": "uint64",
-            "description": "id",
-            "name": "id",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "uint64",
-            "description": "role_id",
-            "name": "role_id",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "format": "email",
-            "description": "email",
-            "name": "email",
-            "in": "query"
-          },
-          {
             "type": "string",
             "description": "login",
             "name": "login",
@@ -1352,12 +1331,6 @@ func init() {
             "type": "string",
             "description": "surname",
             "name": "surname",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "password",
-            "name": "password",
             "in": "query"
           },
           {
@@ -2723,27 +2696,6 @@ func init() {
         "operationId": "user_profile_patch",
         "parameters": [
           {
-            "type": "integer",
-            "format": "uint64",
-            "description": "id",
-            "name": "id",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "uint64",
-            "description": "role_id",
-            "name": "role_id",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "format": "email",
-            "description": "email",
-            "name": "email",
-            "in": "query"
-          },
-          {
             "type": "string",
             "description": "login",
             "name": "login",
@@ -2759,12 +2711,6 @@ func init() {
             "type": "string",
             "description": "surname",
             "name": "surname",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "password",
-            "name": "password",
             "in": "query"
           },
           {
