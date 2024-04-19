@@ -67,11 +67,6 @@ func configureAPI(api *operations.BackendServiceAPI) http.Handler {
 			return middleware.NotImplemented("operation auth.AuthPost has not yet been implemented")
 		})
 	}
-	if api.TestGetAllUsersGetHandler == nil {
-		api.TestGetAllUsersGetHandler = test.GetAllUsersGetHandlerFunc(func(params test.GetAllUsersGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation test.GetAllUsersGet has not yet been implemented")
-		})
-	}
 	if api.LogsLogsGetHandler == nil {
 		api.LogsLogsGetHandler = logs.LogsGetHandlerFunc(func(params logs.LogsGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation logs.LogsGet has not yet been implemented")
@@ -170,6 +165,11 @@ func configureAPI(api *operations.BackendServiceAPI) http.Handler {
 	if api.UserUserProfileGetHandler == nil {
 		api.UserUserProfileGetHandler = user.UserProfileGetHandlerFunc(func(params user.UserProfileGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UserProfileGet has not yet been implemented")
+		})
+	}
+	if api.UserUserProfilePatchHandler == nil {
+		api.UserUserProfilePatchHandler = user.UserProfilePatchHandlerFunc(func(params user.UserProfilePatchParams) middleware.Responder {
+			return middleware.NotImplemented("operation user.UserProfilePatch has not yet been implemented")
 		})
 	}
 
