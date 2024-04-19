@@ -12,7 +12,7 @@ import (
 func (h *Handler) userProfilePatch500(err error) middleware.Responder {
 	err = errors.Wrap(err, "handler error: [userProfilePatch]")
 	h.log.Error(err.Error())
-	return user.NewUserPostInternalServerError().WithPayload(
+	return user.NewUserProfilePatchInternalServerError().WithPayload(
 		&models.Error500{
 			Error: err.Error(),
 		},
