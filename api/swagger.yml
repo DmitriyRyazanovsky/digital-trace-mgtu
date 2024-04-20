@@ -371,8 +371,8 @@ paths:
   /user/achievement:
     post:
       tags:
-        - user
-      operationId: userAchievementPost
+        - achievement
+      operationId: user_achievement_post
       summary: Запрос на добавление достижения пользователю
       consumes:
         - application/json
@@ -407,8 +407,8 @@ paths:
 
     get:
       tags:
-        - user
-      operationId: userAchievementGet
+        - achievement
+      operationId: user_achievement_get
       summary: Запрос на получение информации о достижениях пользователя
       consumes:
         - application/json
@@ -449,8 +449,8 @@ paths:
   /user/achievement/{achive_id}/image:
     get:
       tags:
-        - user
-      operationId: user_Achievement_AchiveId_Image_Get
+        - achievement
+      operationId: user_achievement_achiveId_image_get
       summary: Запрос на получение ссылки на скачивание изображения достижения
       parameters:
         - name: Authorization
@@ -483,8 +483,8 @@ paths:
   /user/attempt:
     get:
       tags:
-        - user
-      operationId: userAttemptGet
+        - attempt
+      operationId: user_attempt_get
       summary: Запрос на поиск информации о попытках прохождения теста пользователем
       parameters:
         - name: test_id
@@ -525,12 +525,44 @@ paths:
           description: Ошибка сервера
           schema:
             $ref: '#/definitions/error_500'
+            
+    post:
+      tags: 
+        - attempt
+      operationId: attemptPost
+      summary: Запрос на создание совой попытки
+      consumes:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt access auth
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              test_id:
+                type: integer
+                format: uint64
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
   
   /user/attempt/{attempt_id}/azbel_test:
     get:
       tags:
-        - user
-      operationId: userAttemptAttemptIdAzbelTestGet
+        - attempt
+      operationId: user_attempt_attemptId_azbel_test_get
       summary: Запрос на получение ответов на тест интересов от азбеля
       parameters:
         - name: Authorization
@@ -559,8 +591,8 @@ paths:
   /user/attempt/{attempt_id}/klimov_test:
     get:
       tags:
-        - user
-      operationId: userAttemptAttemptIdKlimovTestGet
+        - attempt
+      operationId: user_attempt_attemptId_klimov_test_get
       summary: Запрос на получение ответов на тест климова от пользователя
       parameters:
         - name: Authorization
@@ -589,7 +621,7 @@ paths:
   /user/attempt/{attempt_id}/answer:
     put:
       tags:
-        - user
+        - attempt
       operationId: userAttemptAttemptIdAnswerPut
       summary: Запрос на заполнение ответами попытки прохождения теста
       consumes:
@@ -629,7 +661,7 @@ paths:
             $ref: '#/definitions/error_500'
     get:
       tags:
-        - user
+        - attempt
       operationId: userAttemptAttemptIdAnswerGet
       summary: Запрос на получение ответов по попытке от пользователя
       parameters:
@@ -776,37 +808,6 @@ paths:
           description: Ошибка сервера
           schema:
             $ref: '#/definitions/error_500'
-
-  /attempt:
-    post:
-      tags: 
-        - attempt
-      operationId: attemptPost
-      summary: Запрос на создание совой попытки
-      consumes:
-        - application/json
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              test_id:
-                type: integer
-                format: uint64
-              user_id:
-                type: integer
-                format: uint64
-      produces:
-        - application/json
-      responses:
-        200:
-          description: OK
-        500:
-          description: Ошибка сервера
-          schema:
-            $ref: '#/definitions/error_500'
   
   /attempt/{attempt_id}/close:
     patch:
@@ -815,6 +816,11 @@ paths:
       operationId: attemptAttemptIdClosePatch
       summary: Запрос на обработку ответов по попытке и её закрытие
       parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt access auth
+          required: true
         - name: attempt_id
           in: path
           description: Id попытки тестирования пользователя

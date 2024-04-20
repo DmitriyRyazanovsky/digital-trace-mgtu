@@ -6,7 +6,6 @@ package logs
 // Editing this file might prove futile when you re-run the generate command
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -33,7 +32,7 @@ func NewLogsGet(ctx *middleware.Context, handler LogsGetHandler) *LogsGet {
 }
 
 /*
-	LogsGet swagger:route GET /logs logs logsGet
+LogsGet swagger:route GET /logs logs logsGet
 
 Получить логи сервиса
 */
@@ -45,15 +44,17 @@ type LogsGet struct {
 func (o *LogsGet) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewLogsGetParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -75,11 +76,6 @@ type LogsGetOKBodyItems0 struct {
 
 // Validate validates this logs get o k body items0
 func (o *LogsGetOKBodyItems0) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this logs get o k body items0 based on context it is used
-func (o *LogsGetOKBodyItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

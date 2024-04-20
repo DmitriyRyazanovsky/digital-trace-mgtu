@@ -20,6 +20,11 @@ func (h *Handler) attemptPost500(err error) middleware.Responder {
 }
 
 func (h *Handler) attemptPost(params attempt.AttemptPostParams) middleware.Responder {
+	accessToken, err := h.jwt.ValidateAccessToken(params.Authorization)
+	if err != nil {
+		return h.attemptPost500(errors.Wrap(err, "[h.jwt.ValidateAccessToken(params.Authorization)]"))
+	}
+
 	tx, err := h.db.OpenTransaction()
 	if err != nil {
 		return h.attemptPost500(errors.Wrap(err, "[h.db.OpenTransaction()]"))
@@ -27,7 +32,7 @@ func (h *Handler) attemptPost(params attempt.AttemptPostParams) middleware.Respo
 	openStatus := uint64(1)
 
 	findAttemptOut, err := h.db.FindAttempt(tx, database.Attempt{
-		UserId:   &params.Body.UserID,
+		UserId:   &accessToken.UserId,
 		TestId:   &params.Body.TestID,
 		StatusId: &openStatus,
 	})
@@ -39,7 +44,7 @@ func (h *Handler) attemptPost(params attempt.AttemptPostParams) middleware.Respo
 	}
 
 	_, err = h.db.AddAttempt(tx, database.Attempt{
-		UserId:   &params.Body.UserID,
+		UserId:   &accessToken.UserId,
 		TestId:   &params.Body.TestID,
 		StatusId: &openStatus,
 	})

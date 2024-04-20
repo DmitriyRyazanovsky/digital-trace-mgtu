@@ -3,7 +3,7 @@ package handlers
 import (
 	"mgtu/digital-trace/main-backend-service/internal/database"
 	"mgtu/digital-trace/main-backend-service/internal/gen/models"
-	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/user"
+	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/attempt"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/lib/pq"
@@ -15,22 +15,22 @@ import (
 func (h *Handler) userAttemptAttemptIdAnswerPut500(err error) middleware.Responder {
 	err = errors.Wrapf(err, "handler error: [userAttemptAttemptIDAnswerPut]")
 	h.log.Error(err.Error())
-	return user.NewUserAttemptAttemptIDAnswerPutInternalServerError().WithPayload(
+	return attempt.NewUserAttemptAttemptIDAnswerPutInternalServerError().WithPayload(
 		&models.Error500{
 			Error: err.Error(),
 		},
 	)
 }
 
-func (h *Handler) userAttemptAttemptIDAnswerPut(params user.UserAttemptAttemptIDAnswerPutParams) middleware.Responder {
-	tx, err := h.db.OpenTransaction()
-	if err != nil {
-		return h.userAttemptAttemptIdAnswerPut500(errors.Wrap(err, "[h.db.OpenTransaction()]"))
-	}
-
+func (h *Handler) userAttemptAttemptIDAnswerPut(params attempt.UserAttemptAttemptIDAnswerPutParams) middleware.Responder {
 	accessToken, err := h.jwt.ValidateAccessToken(params.Authorization)
 	if err != nil {
 		return h.userAttemptGetError500(errors.Wrap(err, "[h.jwt.ValidateAccessToken(params.Authorization)]"))
+	}
+
+	tx, err := h.db.OpenTransaction()
+	if err != nil {
+		return h.userAttemptAttemptIdAnswerPut500(errors.Wrap(err, "[h.db.OpenTransaction()]"))
 	}
 
 	findAttemptOut, err := h.db.FindAttempt(tx, database.Attempt{
@@ -141,5 +141,5 @@ func (h *Handler) userAttemptAttemptIDAnswerPut(params user.UserAttemptAttemptID
 		return h.userAttemptAttemptIdAnswerPut500(errors.Wrap(err, "[h.db.CommitTransaction()]"))
 	}
 
-	return user.NewUserAttemptAttemptIDAnswerPutOK()
+	return attempt.NewUserAttemptAttemptIDAnswerPutOK()
 }

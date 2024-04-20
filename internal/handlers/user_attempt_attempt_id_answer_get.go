@@ -3,7 +3,7 @@ package handlers
 import (
 	"mgtu/digital-trace/main-backend-service/internal/database"
 	"mgtu/digital-trace/main-backend-service/internal/gen/models"
-	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/user"
+	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/attempt"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/pkg/errors"
@@ -14,14 +14,14 @@ import (
 func (h *Handler) userAttemptAttemptIdAnswerGet500(err error) middleware.Responder {
 	err = errors.Wrapf(err, "handler error: [userAttemptAttemptIDAnswerGet]")
 	h.log.Error(err.Error())
-	return user.NewUserAttemptAttemptIDAnswerGetInternalServerError().WithPayload(
+	return attempt.NewUserAttemptAttemptIDAnswerGetInternalServerError().WithPayload(
 		&models.Error500{
 			Error: err.Error(),
 		},
 	)
 }
 
-func (h *Handler) userAttemptAttemptIDAnswerGet(params user.UserAttemptAttemptIDAnswerGetParams) middleware.Responder {
+func (h *Handler) userAttemptAttemptIDAnswerGet(params attempt.UserAttemptAttemptIDAnswerGetParams) middleware.Responder {
 	tx, err := h.db.OpenTransaction()
 	if err != nil {
 		return h.userAttemptAttemptIdAnswerGet500(errors.Wrap(err, "[h.db.OpenTransaction()]"))
@@ -52,14 +52,14 @@ func (h *Handler) userAttemptAttemptIDAnswerGet(params user.UserAttemptAttemptID
 		return h.userAttemptAttemptIdAnswerGet500(errors.Wrap(err, "[h.db.FindUserAnswer()]"))
 	}
 
-	out := []*user.UserAttemptAttemptIDAnswerGetOKBodyItems0{}
+	out := []*attempt.UserAttemptAttemptIDAnswerGetOKBodyItems0{}
 
 	for _, v := range findUserAnswerOut.UserAnswer {
 		userAnswer := []*int64{}
 		for _, v := range *v.Answer {
 			userAnswer = append(userAnswer, &v)
 		}
-		item := &user.UserAttemptAttemptIDAnswerGetOKBodyItems0{
+		item := &attempt.UserAttemptAttemptIDAnswerGetOKBodyItems0{
 			QuestionID: *v.QuestionId,
 			UserAnswer: userAnswer,
 		}
@@ -72,5 +72,5 @@ func (h *Handler) userAttemptAttemptIDAnswerGet(params user.UserAttemptAttemptID
 		return h.userAttemptAttemptIdAnswerGet500(errors.Wrap(err, "[h.db.CommitTransaction()]"))
 	}
 
-	return user.NewUserAttemptAttemptIDAnswerGetOK().WithPayload(out)
+	return attempt.NewUserAttemptAttemptIDAnswerGetOK().WithPayload(out)
 }

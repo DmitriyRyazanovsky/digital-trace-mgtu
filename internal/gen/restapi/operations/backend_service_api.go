@@ -65,9 +65,6 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		AuthAuthPostHandler: auth.AuthPostHandlerFunc(func(params auth.AuthPostParams) middleware.Responder {
 			return middleware.NotImplemented("operation auth.AuthPost has not yet been implemented")
 		}),
-		TestGetAllUsersGetHandler: test.GetAllUsersGetHandlerFunc(func(params test.GetAllUsersGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation test.GetAllUsersGet has not yet been implemented")
-		}),
 		LogsLogsGetHandler: logs.LogsGetHandlerFunc(func(params logs.LogsGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation logs.LogsGet has not yet been implemented")
 		}),
@@ -89,26 +86,11 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		TestTestTestIDQuestionGetHandler: test.TestTestIDQuestionGetHandlerFunc(func(params test.TestTestIDQuestionGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation test.TestTestIDQuestionGet has not yet been implemented")
 		}),
-		UserUserAchievementGetHandler: user.UserAchievementGetHandlerFunc(func(params user.UserAchievementGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAchievementGet has not yet been implemented")
+		AttemptUserAttemptAttemptIDAnswerGetHandler: attempt.UserAttemptAttemptIDAnswerGetHandlerFunc(func(params attempt.UserAttemptAttemptIDAnswerGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptAttemptIDAnswerGet has not yet been implemented")
 		}),
-		UserUserAchievementPostHandler: user.UserAchievementPostHandlerFunc(func(params user.UserAchievementPostParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAchievementPost has not yet been implemented")
-		}),
-		UserUserAttemptAttemptIDAnswerGetHandler: user.UserAttemptAttemptIDAnswerGetHandlerFunc(func(params user.UserAttemptAttemptIDAnswerGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptAttemptIDAnswerGet has not yet been implemented")
-		}),
-		UserUserAttemptAttemptIDAnswerPutHandler: user.UserAttemptAttemptIDAnswerPutHandlerFunc(func(params user.UserAttemptAttemptIDAnswerPutParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptAttemptIDAnswerPut has not yet been implemented")
-		}),
-		UserUserAttemptAttemptIDAzbelTestGetHandler: user.UserAttemptAttemptIDAzbelTestGetHandlerFunc(func(params user.UserAttemptAttemptIDAzbelTestGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptAttemptIDAzbelTestGet has not yet been implemented")
-		}),
-		UserUserAttemptAttemptIDKlimovTestGetHandler: user.UserAttemptAttemptIDKlimovTestGetHandlerFunc(func(params user.UserAttemptAttemptIDKlimovTestGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptAttemptIDKlimovTestGet has not yet been implemented")
-		}),
-		UserUserAttemptGetHandler: user.UserAttemptGetHandlerFunc(func(params user.UserAttemptGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptGet has not yet been implemented")
+		AttemptUserAttemptAttemptIDAnswerPutHandler: attempt.UserAttemptAttemptIDAnswerPutHandlerFunc(func(params attempt.UserAttemptAttemptIDAnswerPutParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptAttemptIDAnswerPut has not yet been implemented")
 		}),
 		AllUsersUserGetHandler: all_users.UserGetHandlerFunc(func(params all_users.UserGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation all_users.UserGet has not yet been implemented")
@@ -116,8 +98,23 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		UserUserPostHandler: user.UserPostHandlerFunc(func(params user.UserPostParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UserPost has not yet been implemented")
 		}),
-		UserUserAchievementAchiveIDImageGetHandler: user.UserAchievementAchiveIDImageGetHandlerFunc(func(params user.UserAchievementAchiveIDImageGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAchievementAchiveIDImageGet has not yet been implemented")
+		AchievementUserAchievementAchiveIDImageGetHandler: achievement.UserAchievementAchiveIDImageGetHandlerFunc(func(params achievement.UserAchievementAchiveIDImageGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation achievement.UserAchievementAchiveIDImageGet has not yet been implemented")
+		}),
+		AchievementUserAchievementGetHandler: achievement.UserAchievementGetHandlerFunc(func(params achievement.UserAchievementGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation achievement.UserAchievementGet has not yet been implemented")
+		}),
+		AchievementUserAchievementPostHandler: achievement.UserAchievementPostHandlerFunc(func(params achievement.UserAchievementPostParams) middleware.Responder {
+			return middleware.NotImplemented("operation achievement.UserAchievementPost has not yet been implemented")
+		}),
+		AttemptUserAttemptAttemptIDAzbelTestGetHandler: attempt.UserAttemptAttemptIDAzbelTestGetHandlerFunc(func(params attempt.UserAttemptAttemptIDAzbelTestGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptAttemptIDAzbelTestGet has not yet been implemented")
+		}),
+		AttemptUserAttemptAttemptIDKlimovTestGetHandler: attempt.UserAttemptAttemptIDKlimovTestGetHandlerFunc(func(params attempt.UserAttemptAttemptIDKlimovTestGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptAttemptIDKlimovTestGet has not yet been implemented")
+		}),
+		AttemptUserAttemptGetHandler: attempt.UserAttemptGetHandlerFunc(func(params attempt.UserAttemptGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptGet has not yet been implemented")
 		}),
 		UserUserAvatarGetHandler: user.UserAvatarGetHandlerFunc(func(params user.UserAvatarGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UserAvatarGet has not yet been implemented")
@@ -147,11 +144,9 @@ type BackendServiceAPI struct {
 	// BasicAuthenticator generates a runtime.Authenticator from the supplied basic auth function.
 	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	BasicAuthenticator func(security.UserPassAuthentication) runtime.Authenticator
-
 	// APIKeyAuthenticator generates a runtime.Authenticator from the supplied token auth function.
 	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	APIKeyAuthenticator func(string, string, security.TokenAuthentication) runtime.Authenticator
-
 	// BearerAuthenticator generates a runtime.Authenticator from the supplied bearer token auth function.
 	// It has a default implementation in the security package, however you can replace it for your particular usage.
 	BearerAuthenticator func(string, security.ScopedTokenAuthentication) runtime.Authenticator
@@ -175,8 +170,6 @@ type BackendServiceAPI struct {
 	AttemptAttemptPostHandler attempt.AttemptPostHandler
 	// AuthAuthPostHandler sets the operation handler for the auth post operation
 	AuthAuthPostHandler auth.AuthPostHandler
-	// TestGetAllUsersGetHandler sets the operation handler for the get all users get operation
-	TestGetAllUsersGetHandler test.GetAllUsersGetHandler
 	// LogsLogsGetHandler sets the operation handler for the logs get operation
 	LogsLogsGetHandler logs.LogsGetHandler
 	// MailMailUserGetHandler sets the operation handler for the mail user get operation
@@ -191,33 +184,32 @@ type BackendServiceAPI struct {
 	TestTestGetHandler test.TestGetHandler
 	// TestTestTestIDQuestionGetHandler sets the operation handler for the test test Id question get operation
 	TestTestTestIDQuestionGetHandler test.TestTestIDQuestionGetHandler
-	// UserUserAchievementGetHandler sets the operation handler for the user achievement get operation
-	UserUserAchievementGetHandler user.UserAchievementGetHandler
-	// UserUserAchievementPostHandler sets the operation handler for the user achievement post operation
-	UserUserAchievementPostHandler user.UserAchievementPostHandler
-	// UserUserAttemptAttemptIDAnswerGetHandler sets the operation handler for the user attempt attempt Id answer get operation
-	UserUserAttemptAttemptIDAnswerGetHandler user.UserAttemptAttemptIDAnswerGetHandler
-	// UserUserAttemptAttemptIDAnswerPutHandler sets the operation handler for the user attempt attempt Id answer put operation
-	UserUserAttemptAttemptIDAnswerPutHandler user.UserAttemptAttemptIDAnswerPutHandler
-	// UserUserAttemptAttemptIDAzbelTestGetHandler sets the operation handler for the user attempt attempt Id azbel test get operation
-	UserUserAttemptAttemptIDAzbelTestGetHandler user.UserAttemptAttemptIDAzbelTestGetHandler
-	// UserUserAttemptAttemptIDKlimovTestGetHandler sets the operation handler for the user attempt attempt Id klimov test get operation
-	UserUserAttemptAttemptIDKlimovTestGetHandler user.UserAttemptAttemptIDKlimovTestGetHandler
-	// UserUserAttemptGetHandler sets the operation handler for the user attempt get operation
-	UserUserAttemptGetHandler user.UserAttemptGetHandler
+	// AttemptUserAttemptAttemptIDAnswerGetHandler sets the operation handler for the user attempt attempt Id answer get operation
+	AttemptUserAttemptAttemptIDAnswerGetHandler attempt.UserAttemptAttemptIDAnswerGetHandler
+	// AttemptUserAttemptAttemptIDAnswerPutHandler sets the operation handler for the user attempt attempt Id answer put operation
+	AttemptUserAttemptAttemptIDAnswerPutHandler attempt.UserAttemptAttemptIDAnswerPutHandler
 	// AllUsersUserGetHandler sets the operation handler for the user get operation
 	AllUsersUserGetHandler all_users.UserGetHandler
 	// UserUserPostHandler sets the operation handler for the user post operation
 	UserUserPostHandler user.UserPostHandler
-	// UserUserAchievementAchiveIDImageGetHandler sets the operation handler for the user achievement achive Id image get operation
-	UserUserAchievementAchiveIDImageGetHandler user.UserAchievementAchiveIDImageGetHandler
+	// AchievementUserAchievementAchiveIDImageGetHandler sets the operation handler for the user achievement achive Id image get operation
+	AchievementUserAchievementAchiveIDImageGetHandler achievement.UserAchievementAchiveIDImageGetHandler
+	// AchievementUserAchievementGetHandler sets the operation handler for the user achievement get operation
+	AchievementUserAchievementGetHandler achievement.UserAchievementGetHandler
+	// AchievementUserAchievementPostHandler sets the operation handler for the user achievement post operation
+	AchievementUserAchievementPostHandler achievement.UserAchievementPostHandler
+	// AttemptUserAttemptAttemptIDAzbelTestGetHandler sets the operation handler for the user attempt attempt Id azbel test get operation
+	AttemptUserAttemptAttemptIDAzbelTestGetHandler attempt.UserAttemptAttemptIDAzbelTestGetHandler
+	// AttemptUserAttemptAttemptIDKlimovTestGetHandler sets the operation handler for the user attempt attempt Id klimov test get operation
+	AttemptUserAttemptAttemptIDKlimovTestGetHandler attempt.UserAttemptAttemptIDKlimovTestGetHandler
+	// AttemptUserAttemptGetHandler sets the operation handler for the user attempt get operation
+	AttemptUserAttemptGetHandler attempt.UserAttemptGetHandler
 	// UserUserAvatarGetHandler sets the operation handler for the user avatar get operation
 	UserUserAvatarGetHandler user.UserAvatarGetHandler
 	// UserUserAvatarPutHandler sets the operation handler for the user avatar put operation
 	UserUserAvatarPutHandler user.UserAvatarPutHandler
 	// UserUserProfileGetHandler sets the operation handler for the user profile get operation
 	UserUserProfileGetHandler user.UserProfileGetHandler
-
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
 	ServeError func(http.ResponseWriter, *http.Request, error)
@@ -309,9 +301,6 @@ func (o *BackendServiceAPI) Validate() error {
 	if o.AuthAuthPostHandler == nil {
 		unregistered = append(unregistered, "auth.AuthPostHandler")
 	}
-	if o.TestGetAllUsersGetHandler == nil {
-		unregistered = append(unregistered, "test.GetAllUsersGetHandler")
-	}
 	if o.LogsLogsGetHandler == nil {
 		unregistered = append(unregistered, "logs.LogsGetHandler")
 	}
@@ -333,26 +322,11 @@ func (o *BackendServiceAPI) Validate() error {
 	if o.TestTestTestIDQuestionGetHandler == nil {
 		unregistered = append(unregistered, "test.TestTestIDQuestionGetHandler")
 	}
-	if o.UserUserAchievementGetHandler == nil {
-		unregistered = append(unregistered, "user.UserAchievementGetHandler")
+	if o.AttemptUserAttemptAttemptIDAnswerGetHandler == nil {
+		unregistered = append(unregistered, "attempt.UserAttemptAttemptIDAnswerGetHandler")
 	}
-	if o.UserUserAchievementPostHandler == nil {
-		unregistered = append(unregistered, "user.UserAchievementPostHandler")
-	}
-	if o.UserUserAttemptAttemptIDAnswerGetHandler == nil {
-		unregistered = append(unregistered, "user.UserAttemptAttemptIDAnswerGetHandler")
-	}
-	if o.UserUserAttemptAttemptIDAnswerPutHandler == nil {
-		unregistered = append(unregistered, "user.UserAttemptAttemptIDAnswerPutHandler")
-	}
-	if o.UserUserAttemptAttemptIDAzbelTestGetHandler == nil {
-		unregistered = append(unregistered, "user.UserAttemptAttemptIDAzbelTestGetHandler")
-	}
-	if o.UserUserAttemptAttemptIDKlimovTestGetHandler == nil {
-		unregistered = append(unregistered, "user.UserAttemptAttemptIDKlimovTestGetHandler")
-	}
-	if o.UserUserAttemptGetHandler == nil {
-		unregistered = append(unregistered, "user.UserAttemptGetHandler")
+	if o.AttemptUserAttemptAttemptIDAnswerPutHandler == nil {
+		unregistered = append(unregistered, "attempt.UserAttemptAttemptIDAnswerPutHandler")
 	}
 	if o.AllUsersUserGetHandler == nil {
 		unregistered = append(unregistered, "all_users.UserGetHandler")
@@ -360,8 +334,23 @@ func (o *BackendServiceAPI) Validate() error {
 	if o.UserUserPostHandler == nil {
 		unregistered = append(unregistered, "user.UserPostHandler")
 	}
-	if o.UserUserAchievementAchiveIDImageGetHandler == nil {
-		unregistered = append(unregistered, "user.UserAchievementAchiveIDImageGetHandler")
+	if o.AchievementUserAchievementAchiveIDImageGetHandler == nil {
+		unregistered = append(unregistered, "achievement.UserAchievementAchiveIDImageGetHandler")
+	}
+	if o.AchievementUserAchievementGetHandler == nil {
+		unregistered = append(unregistered, "achievement.UserAchievementGetHandler")
+	}
+	if o.AchievementUserAchievementPostHandler == nil {
+		unregistered = append(unregistered, "achievement.UserAchievementPostHandler")
+	}
+	if o.AttemptUserAttemptAttemptIDAzbelTestGetHandler == nil {
+		unregistered = append(unregistered, "attempt.UserAttemptAttemptIDAzbelTestGetHandler")
+	}
+	if o.AttemptUserAttemptAttemptIDKlimovTestGetHandler == nil {
+		unregistered = append(unregistered, "attempt.UserAttemptAttemptIDKlimovTestGetHandler")
+	}
+	if o.AttemptUserAttemptGetHandler == nil {
+		unregistered = append(unregistered, "attempt.UserAttemptGetHandler")
 	}
 	if o.UserUserAvatarGetHandler == nil {
 		unregistered = append(unregistered, "user.UserAvatarGetHandler")
@@ -473,15 +462,11 @@ func (o *BackendServiceAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/attempt"] = attempt.NewAttemptPost(o.context, o.AttemptAttemptPostHandler)
+	o.handlers["POST"]["/user/attempt"] = attempt.NewAttemptPost(o.context, o.AttemptAttemptPostHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/auth"] = auth.NewAuthPost(o.context, o.AuthAuthPostHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/get_all_users"] = test.NewGetAllUsersGet(o.context, o.TestGetAllUsersGetHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -513,31 +498,11 @@ func (o *BackendServiceAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/user/achievement"] = user.NewUserAchievementGet(o.context, o.UserUserAchievementGetHandler)
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/user/achievement"] = user.NewUserAchievementPost(o.context, o.UserUserAchievementPostHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/user/attempt/{attempt_id}/answer"] = user.NewUserAttemptAttemptIDAnswerGet(o.context, o.UserUserAttemptAttemptIDAnswerGetHandler)
+	o.handlers["GET"]["/user/attempt/{attempt_id}/answer"] = attempt.NewUserAttemptAttemptIDAnswerGet(o.context, o.AttemptUserAttemptAttemptIDAnswerGetHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/user/attempt/{attempt_id}/answer"] = user.NewUserAttemptAttemptIDAnswerPut(o.context, o.UserUserAttemptAttemptIDAnswerPutHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/user/attempt/{attempt_id}/azbel_test"] = user.NewUserAttemptAttemptIDAzbelTestGet(o.context, o.UserUserAttemptAttemptIDAzbelTestGetHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/user/attempt/{attempt_id}/klimov_test"] = user.NewUserAttemptAttemptIDKlimovTestGet(o.context, o.UserUserAttemptAttemptIDKlimovTestGetHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/user/attempt"] = user.NewUserAttemptGet(o.context, o.UserUserAttemptGetHandler)
+	o.handlers["PUT"]["/user/attempt/{attempt_id}/answer"] = attempt.NewUserAttemptAttemptIDAnswerPut(o.context, o.AttemptUserAttemptAttemptIDAnswerPutHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -549,7 +514,27 @@ func (o *BackendServiceAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/user/achievement/{achive_id}/image"] = user.NewUserAchievementAchiveIDImageGet(o.context, o.UserUserAchievementAchiveIDImageGetHandler)
+	o.handlers["GET"]["/user/achievement/{achive_id}/image"] = achievement.NewUserAchievementAchiveIDImageGet(o.context, o.AchievementUserAchievementAchiveIDImageGetHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/user/achievement"] = achievement.NewUserAchievementGet(o.context, o.AchievementUserAchievementGetHandler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/user/achievement"] = achievement.NewUserAchievementPost(o.context, o.AchievementUserAchievementPostHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/user/attempt/{attempt_id}/azbel_test"] = attempt.NewUserAttemptAttemptIDAzbelTestGet(o.context, o.AttemptUserAttemptAttemptIDAzbelTestGetHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/user/attempt/{attempt_id}/klimov_test"] = attempt.NewUserAttemptAttemptIDKlimovTestGet(o.context, o.AttemptUserAttemptAttemptIDKlimovTestGetHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/user/attempt"] = attempt.NewUserAttemptGet(o.context, o.AttemptUserAttemptGetHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -603,6 +588,6 @@ func (o *BackendServiceAPI) AddMiddlewareFor(method, path string, builder middle
 	}
 	o.Init()
 	if h, ok := o.handlers[um][path]; ok {
-		o.handlers[um][path] = builder(h)
+		o.handlers[method][path] = builder(h)
 	}
 }

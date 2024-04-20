@@ -6,7 +6,6 @@ package attempt
 // Editing this file might prove futile when you re-run the generate command
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -33,7 +32,7 @@ func NewAttemptPost(ctx *middleware.Context, handler AttemptPostHandler) *Attemp
 }
 
 /*
-	AttemptPost swagger:route POST /attempt attempt attemptPost
+AttemptPost swagger:route POST /user/attempt attempt attemptPost
 
 Запрос на создание совой попытки
 */
@@ -45,15 +44,17 @@ type AttemptPost struct {
 func (o *AttemptPost) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewAttemptPostParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -65,18 +66,10 @@ type AttemptPostBody struct {
 
 	// test id
 	TestID uint64 `json:"test_id,omitempty"`
-
-	// user id
-	UserID uint64 `json:"user_id,omitempty"`
 }
 
 // Validate validates this attempt post body
 func (o *AttemptPostBody) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this attempt post body based on context it is used
-func (o *AttemptPostBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

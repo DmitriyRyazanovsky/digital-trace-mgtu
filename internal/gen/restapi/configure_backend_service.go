@@ -67,11 +67,6 @@ func configureAPI(api *operations.BackendServiceAPI) http.Handler {
 			return middleware.NotImplemented("operation auth.AuthPost has not yet been implemented")
 		})
 	}
-	if api.TestGetAllUsersGetHandler == nil {
-		api.TestGetAllUsersGetHandler = test.GetAllUsersGetHandlerFunc(func(params test.GetAllUsersGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation test.GetAllUsersGet has not yet been implemented")
-		})
-	}
 	if api.LogsLogsGetHandler == nil {
 		api.LogsLogsGetHandler = logs.LogsGetHandlerFunc(func(params logs.LogsGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation logs.LogsGet has not yet been implemented")
@@ -107,39 +102,14 @@ func configureAPI(api *operations.BackendServiceAPI) http.Handler {
 			return middleware.NotImplemented("operation test.TestTestIDQuestionGet has not yet been implemented")
 		})
 	}
-	if api.UserUserAchievementGetHandler == nil {
-		api.UserUserAchievementGetHandler = user.UserAchievementGetHandlerFunc(func(params user.UserAchievementGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAchievementGet has not yet been implemented")
+	if api.AttemptUserAttemptAttemptIDAnswerGetHandler == nil {
+		api.AttemptUserAttemptAttemptIDAnswerGetHandler = attempt.UserAttemptAttemptIDAnswerGetHandlerFunc(func(params attempt.UserAttemptAttemptIDAnswerGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptAttemptIDAnswerGet has not yet been implemented")
 		})
 	}
-	if api.UserUserAchievementPostHandler == nil {
-		api.UserUserAchievementPostHandler = user.UserAchievementPostHandlerFunc(func(params user.UserAchievementPostParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAchievementPost has not yet been implemented")
-		})
-	}
-	if api.UserUserAttemptAttemptIDAnswerGetHandler == nil {
-		api.UserUserAttemptAttemptIDAnswerGetHandler = user.UserAttemptAttemptIDAnswerGetHandlerFunc(func(params user.UserAttemptAttemptIDAnswerGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptAttemptIDAnswerGet has not yet been implemented")
-		})
-	}
-	if api.UserUserAttemptAttemptIDAnswerPutHandler == nil {
-		api.UserUserAttemptAttemptIDAnswerPutHandler = user.UserAttemptAttemptIDAnswerPutHandlerFunc(func(params user.UserAttemptAttemptIDAnswerPutParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptAttemptIDAnswerPut has not yet been implemented")
-		})
-	}
-	if api.UserUserAttemptAttemptIDAzbelTestGetHandler == nil {
-		api.UserUserAttemptAttemptIDAzbelTestGetHandler = user.UserAttemptAttemptIDAzbelTestGetHandlerFunc(func(params user.UserAttemptAttemptIDAzbelTestGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptAttemptIDAzbelTestGet has not yet been implemented")
-		})
-	}
-	if api.UserUserAttemptAttemptIDKlimovTestGetHandler == nil {
-		api.UserUserAttemptAttemptIDKlimovTestGetHandler = user.UserAttemptAttemptIDKlimovTestGetHandlerFunc(func(params user.UserAttemptAttemptIDKlimovTestGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptAttemptIDKlimovTestGet has not yet been implemented")
-		})
-	}
-	if api.UserUserAttemptGetHandler == nil {
-		api.UserUserAttemptGetHandler = user.UserAttemptGetHandlerFunc(func(params user.UserAttemptGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAttemptGet has not yet been implemented")
+	if api.AttemptUserAttemptAttemptIDAnswerPutHandler == nil {
+		api.AttemptUserAttemptAttemptIDAnswerPutHandler = attempt.UserAttemptAttemptIDAnswerPutHandlerFunc(func(params attempt.UserAttemptAttemptIDAnswerPutParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptAttemptIDAnswerPut has not yet been implemented")
 		})
 	}
 	if api.AllUsersUserGetHandler == nil {
@@ -152,9 +122,34 @@ func configureAPI(api *operations.BackendServiceAPI) http.Handler {
 			return middleware.NotImplemented("operation user.UserPost has not yet been implemented")
 		})
 	}
-	if api.UserUserAchievementAchiveIDImageGetHandler == nil {
-		api.UserUserAchievementAchiveIDImageGetHandler = user.UserAchievementAchiveIDImageGetHandlerFunc(func(params user.UserAchievementAchiveIDImageGetParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.UserAchievementAchiveIDImageGet has not yet been implemented")
+	if api.AchievementUserAchievementAchiveIDImageGetHandler == nil {
+		api.AchievementUserAchievementAchiveIDImageGetHandler = achievement.UserAchievementAchiveIDImageGetHandlerFunc(func(params achievement.UserAchievementAchiveIDImageGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation achievement.UserAchievementAchiveIDImageGet has not yet been implemented")
+		})
+	}
+	if api.AchievementUserAchievementGetHandler == nil {
+		api.AchievementUserAchievementGetHandler = achievement.UserAchievementGetHandlerFunc(func(params achievement.UserAchievementGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation achievement.UserAchievementGet has not yet been implemented")
+		})
+	}
+	if api.AchievementUserAchievementPostHandler == nil {
+		api.AchievementUserAchievementPostHandler = achievement.UserAchievementPostHandlerFunc(func(params achievement.UserAchievementPostParams) middleware.Responder {
+			return middleware.NotImplemented("operation achievement.UserAchievementPost has not yet been implemented")
+		})
+	}
+	if api.AttemptUserAttemptAttemptIDAzbelTestGetHandler == nil {
+		api.AttemptUserAttemptAttemptIDAzbelTestGetHandler = attempt.UserAttemptAttemptIDAzbelTestGetHandlerFunc(func(params attempt.UserAttemptAttemptIDAzbelTestGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptAttemptIDAzbelTestGet has not yet been implemented")
+		})
+	}
+	if api.AttemptUserAttemptAttemptIDKlimovTestGetHandler == nil {
+		api.AttemptUserAttemptAttemptIDKlimovTestGetHandler = attempt.UserAttemptAttemptIDKlimovTestGetHandlerFunc(func(params attempt.UserAttemptAttemptIDKlimovTestGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptAttemptIDKlimovTestGet has not yet been implemented")
+		})
+	}
+	if api.AttemptUserAttemptGetHandler == nil {
+		api.AttemptUserAttemptGetHandler = attempt.UserAttemptGetHandlerFunc(func(params attempt.UserAttemptGetParams) middleware.Responder {
+			return middleware.NotImplemented("operation attempt.UserAttemptGet has not yet been implemented")
 		})
 	}
 	if api.UserUserAvatarGetHandler == nil {
@@ -188,18 +183,18 @@ func configureTLS(tlsConfig *tls.Config) {
 // As soon as server is initialized but not run yet, this function will be called.
 // If you need to modify a config, store server instance to stop it individually later, this is the place.
 // This function can be called multiple times, depending on the number of serving schemes.
-// scheme value will be set accordingly: "http", "https" or "unix".
+// scheme value will be set accordingly: "http", "https" or "unix"
 func configureServer(s *http.Server, scheme, addr string) {
 }
 
 // The middleware configuration is for the handler executors. These do not apply to the swagger.json document.
-// The middleware executes after routing but before authentication, binding and validation.
+// The middleware executes after routing but before authentication, binding and validation
 func setupMiddlewares(handler http.Handler) http.Handler {
 	return handler
 }
 
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
-// So this is a good place to plug in a panic handling middleware, logging and metrics.
+// So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	return handler
 }

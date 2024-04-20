@@ -3,7 +3,7 @@ package handlers
 import (
 	"mgtu/digital-trace/main-backend-service/internal/database"
 	"mgtu/digital-trace/main-backend-service/internal/gen/models"
-	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/user"
+	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/attempt"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/pkg/errors"
@@ -12,14 +12,14 @@ import (
 func (h *Handler) userAttemptGetError500(err error) middleware.Responder {
 	err = errors.Wrapf(err, "handler error: [userUserIDAttemptGet]")
 	h.log.Error(err.Error())
-	return user.NewUserAchievementGetInternalServerError().WithPayload(
+	return attempt.NewUserAttemptGetInternalServerError().WithPayload(
 		&models.Error500{
 			Error: err.Error(),
 		},
 	)
 }
 
-func (h *Handler) userAttemptGet(params user.UserAttemptGetParams) middleware.Responder {
+func (h *Handler) userAttemptGet(params attempt.UserAttemptGetParams) middleware.Responder {
 	tx, err := h.db.OpenTransaction()
 	if err != nil {
 		return h.userAttemptGetError500(errors.Wrap(err, "[h.db.OpenTransaction()]"))
@@ -39,10 +39,10 @@ func (h *Handler) userAttemptGet(params user.UserAttemptGetParams) middleware.Re
 		return h.userAttemptGetError500(errors.Wrap(err, "[h.db.FindAttempt()]"))
 	}
 
-	out := []*user.UserAttemptGetOKBodyItems0{}
+	out := []*attempt.UserAttemptGetOKBodyItems0{}
 
 	for _, v := range findAttemptOut.Attempt {
-		item := &user.UserAttemptGetOKBodyItems0{
+		item := &attempt.UserAttemptGetOKBodyItems0{
 			AttemptID: *v.Id,
 			StatusID:  *v.StatusId,
 			TestID:    *v.TestId,
@@ -55,5 +55,5 @@ func (h *Handler) userAttemptGet(params user.UserAttemptGetParams) middleware.Re
 		return h.userAttemptAttemptIdKlimovTestGet500(errors.Wrap(err, "[h.db.CommitTransaction()]"))
 	}
 
-	return user.NewUserAttemptGetOK().WithPayload(out)
+	return attempt.NewUserAttemptGetOK().WithPayload(out)
 }

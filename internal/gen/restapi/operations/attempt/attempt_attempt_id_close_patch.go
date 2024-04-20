@@ -30,7 +30,7 @@ func NewAttemptAttemptIDClosePatch(ctx *middleware.Context, handler AttemptAttem
 }
 
 /*
-	AttemptAttemptIDClosePatch swagger:route PATCH /attempt/{attempt_id}/close attempt attemptAttemptIdClosePatch
+AttemptAttemptIDClosePatch swagger:route PATCH /attempt/{attempt_id}/close attempt attemptAttemptIdClosePatch
 
 Запрос на обработку ответов по попытке и её закрытие
 */
@@ -42,15 +42,17 @@ type AttemptAttemptIDClosePatch struct {
 func (o *AttemptAttemptIDClosePatch) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewAttemptAttemptIDClosePatchParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

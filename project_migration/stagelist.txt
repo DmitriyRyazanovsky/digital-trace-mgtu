@@ -1,3 +1,5 @@
 ./configs/stage.yml
 Makefile
 backend-service.tar
+
+./secret/postgres.pass

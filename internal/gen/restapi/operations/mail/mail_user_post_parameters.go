@@ -12,12 +12,10 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/validate"
 )
 
 // NewMailUserPostParams creates a new MailUserPostParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewMailUserPostParams() MailUserPostParams {
 
 	return MailUserPostParams{}
@@ -60,11 +58,6 @@ func (o *MailUserPostParams) BindRequest(r *http.Request, route *middleware.Matc
 		} else {
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			ctx := validate.WithOperationRequest(r.Context())
-			if err := body.ContextValidate(ctx, route.Formats); err != nil {
 				res = append(res, err)
 			}
 

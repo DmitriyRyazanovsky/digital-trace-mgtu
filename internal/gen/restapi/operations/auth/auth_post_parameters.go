@@ -12,12 +12,10 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/validate"
 )
 
 // NewAuthPostParams creates a new AuthPostParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewAuthPostParams() AuthPostParams {
 
 	return AuthPostParams{}
@@ -60,11 +58,6 @@ func (o *AuthPostParams) BindRequest(r *http.Request, route *middleware.MatchedR
 		} else {
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			ctx := validate.WithOperationRequest(r.Context())
-			if err := body.ContextValidate(ctx, route.Formats); err != nil {
 				res = append(res, err)
 			}
 

@@ -47,7 +47,7 @@ func (h *Handler) mailUserPost(params mail.MailUserPostParams) middleware.Respon
 	err = h.mail.SendMail(&mail_service.SendMailIn{
 		To:      *params.Body.Email,
 		Subject: "token",
-		Body:    fmt.Sprintf("http://79.174.95.104:5500/js/mail/?accept_token=%s", token),
+		Body:    fmt.Sprintf("https://digital-trace-mgtu.ru/js/mail/?accept_token=%s", token),
 	})
 	if err != nil {
 		return h.mailPost500(errors.Wrap(err, "[h.mail.SendMail]"))
