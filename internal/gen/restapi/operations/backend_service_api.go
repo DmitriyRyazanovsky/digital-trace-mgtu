@@ -125,6 +125,9 @@ func NewBackendServiceAPI(spec *loads.Document) *BackendServiceAPI {
 		UserUserProfileGetHandler: user.UserProfileGetHandlerFunc(func(params user.UserProfileGetParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UserProfileGet has not yet been implemented")
 		}),
+		UserUserProfilePatchHandler: user.UserProfilePatchHandlerFunc(func(params user.UserProfilePatchParams) middleware.Responder {
+			return middleware.NotImplemented("operation user.UserProfilePatch has not yet been implemented")
+		}),
 	}
 }
 
@@ -210,6 +213,8 @@ type BackendServiceAPI struct {
 	UserUserAvatarPutHandler user.UserAvatarPutHandler
 	// UserUserProfileGetHandler sets the operation handler for the user profile get operation
 	UserUserProfileGetHandler user.UserProfileGetHandler
+	// UserUserProfilePatchHandler sets the operation handler for the user profile patch operation
+	UserUserProfilePatchHandler user.UserProfilePatchHandler
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
 	ServeError func(http.ResponseWriter, *http.Request, error)
@@ -360,6 +365,9 @@ func (o *BackendServiceAPI) Validate() error {
 	}
 	if o.UserUserProfileGetHandler == nil {
 		unregistered = append(unregistered, "user.UserProfileGetHandler")
+	}
+	if o.UserUserProfilePatchHandler == nil {
+		unregistered = append(unregistered, "user.UserProfilePatchHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -547,6 +555,10 @@ func (o *BackendServiceAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/user/profile"] = user.NewUserProfileGet(o.context, o.UserUserProfileGetHandler)
+	if o.handlers["PATCH"] == nil {
+		o.handlers["PATCH"] = make(map[string]http.Handler)
+	}
+	o.handlers["PATCH"]["/user/profile"] = user.NewUserProfilePatch(o.context, o.UserUserProfilePatchHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

@@ -167,6 +167,11 @@ func configureAPI(api *operations.BackendServiceAPI) http.Handler {
 			return middleware.NotImplemented("operation user.UserProfileGet has not yet been implemented")
 		})
 	}
+	if api.UserUserProfilePatchHandler == nil {
+		api.UserUserProfilePatchHandler = user.UserProfilePatchHandlerFunc(func(params user.UserProfilePatchParams) middleware.Responder {
+			return middleware.NotImplemented("operation user.UserProfilePatch has not yet been implemented")
+		})
+	}
 
 	api.PreServerShutdown = func() {}
 

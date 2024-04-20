@@ -363,6 +363,47 @@ paths:
           description: Ошибка сервера
           schema:
             $ref: '#/definitions/error_500'
+    patch:
+      tags:
+        - user
+      operationId: user_profile_patch
+      summary: Запрос на изменение данных о пользователе
+      parameters:
+        - name: login
+          in: query
+          type: string
+          description: login
+          required: false
+
+        - name: name
+          in: query
+          type: string
+          description: name
+          required: false
+
+        - name: surname
+          in: query
+          type: string
+          description: surname
+          required: false
+
+        - name: Authorization
+          in: header
+          type: string
+          description: jwt auth
+          required: true
+
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+        500:
+          description: Ошибка сервера
+          schema:
+            $ref: '#/definitions/error_500'
+
+
 
 
 

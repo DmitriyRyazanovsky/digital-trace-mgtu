@@ -1312,6 +1312,54 @@ func init() {
             }
           }
         }
+      },
+      "patch": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Запрос на изменение данных о пользователе",
+        "operationId": "user_profile_patch",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "login",
+            "name": "login",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "name",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "surname",
+            "name": "surname",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "jwt auth",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "schema": {
+              "$ref": "#/definitions/error_500"
+            }
+          }
+        }
       }
     }
   },
@@ -2644,6 +2692,54 @@ func init() {
                 }
               }
             }
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "schema": {
+              "$ref": "#/definitions/error_500"
+            }
+          }
+        }
+      },
+      "patch": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Запрос на изменение данных о пользователе",
+        "operationId": "user_profile_patch",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "login",
+            "name": "login",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "name",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "surname",
+            "name": "surname",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "jwt auth",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "500": {
             "description": "Ошибка сервера",

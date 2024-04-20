@@ -79,4 +79,6 @@ func (h *Handler) Register(api *operations.BackendServiceAPI) {
 
 	//TODO: Сделать только admin и root доступ
 	api.UserUserPostHandler = user.UserPostHandlerFunc(h.userPost)
+
+	api.UserUserProfilePatchHandler = user.UserProfilePatchHandlerFunc(h.userProfilePatch)
 }
