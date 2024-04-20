@@ -6,7 +6,6 @@ package test
 // Editing this file might prove futile when you re-run the generate command
 
 import (
-	"context"
 	"net/http"
 	"strconv"
 
@@ -35,7 +34,7 @@ func NewTestTestIDQuestionGet(ctx *middleware.Context, handler TestTestIDQuestio
 }
 
 /*
-	TestTestIDQuestionGet swagger:route GET /test/{test_id}/questions test testTestIdQuestionGet
+TestTestIDQuestionGet swagger:route GET /test/{test_id}/questions test testTestIdQuestionGet
 
 Запрос на получение списка всех вопросов по тесту
 */
@@ -47,15 +46,17 @@ type TestTestIDQuestionGet struct {
 func (o *TestTestIDQuestionGet) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewTestTestIDQuestionGetParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -93,6 +94,7 @@ func (o *TestTestIDQuestionGetOKBodyItems0) Validate(formats strfmt.Registry) er
 }
 
 func (o *TestTestIDQuestionGetOKBodyItems0) validateAnswers(formats strfmt.Registry) error {
+
 	if swag.IsZero(o.Answers) { // not required
 		return nil
 	}
@@ -106,47 +108,6 @@ func (o *TestTestIDQuestionGetOKBodyItems0) validateAnswers(formats strfmt.Regis
 			if err := o.Answers[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("answers" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("answers" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this test test ID question get o k body items0 based on the context it is used
-func (o *TestTestIDQuestionGetOKBodyItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := o.contextValidateAnswers(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (o *TestTestIDQuestionGetOKBodyItems0) contextValidateAnswers(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(o.Answers); i++ {
-
-		if o.Answers[i] != nil {
-
-			if swag.IsZero(o.Answers[i]) { // not required
-				return nil
-			}
-
-			if err := o.Answers[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("answers" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("answers" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -186,11 +147,6 @@ type TestTestIDQuestionGetOKBodyItems0AnswersItems0 struct {
 
 // Validate validates this test test ID question get o k body items0 answers items0
 func (o *TestTestIDQuestionGetOKBodyItems0AnswersItems0) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this test test ID question get o k body items0 answers items0 based on context it is used
-func (o *TestTestIDQuestionGetOKBodyItems0AnswersItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

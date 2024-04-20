@@ -3,7 +3,7 @@ package handlers
 import (
 	fileworker "mgtu/digital-trace/main-backend-service/internal/file_worker"
 	"mgtu/digital-trace/main-backend-service/internal/gen/models"
-	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/user"
+	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/achievement"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/pkg/errors"
@@ -12,14 +12,14 @@ import (
 func (h *Handler) userAchievementAchiveIDImageGet500(err error) middleware.Responder {
 	err = errors.Wrapf(err, "handler error: [userAchievementAchiveIDImageGet]")
 	h.log.Error(err.Error())
-	return user.NewUserAchievementAchiveIDImageGetInternalServerError().WithPayload(
+	return achievement.NewUserAchievementAchiveIDImageGetInternalServerError().WithPayload(
 		&models.Error500{
 			Error: err.Error(),
 		},
 	)
 }
 
-func (h *Handler) userAchievementAchiveIDImageGet(params user.UserAchievementAchiveIDImageGetParams) middleware.Responder {
+func (h *Handler) userAchievementAchiveIDImageGet(params achievement.UserAchievementAchiveIDImageGetParams) middleware.Responder {
 	claims, err := h.jwt.ValidateAccessToken(params.Authorization)
 	if err != nil {
 		return h.userAchievementAchiveIDImageGet500(errors.Wrap(err, "[ValidateAccessToken(params.Authorization)]"))
@@ -32,7 +32,7 @@ func (h *Handler) userAchievementAchiveIDImageGet(params user.UserAchievementAch
 	if err != nil {
 		return h.userAchievementAchiveIDImageGet500(errors.Wrap(err, "[h.fileWorker.GetAchievement()]"))
 	}
-	return user.NewUserAchievementAchiveIDImageGetOK().
+	return achievement.NewUserAchievementAchiveIDImageGetOK().
 		WithPayload(string(bytes)).
 		WithContentDisposition(`attachment; filename="image.png"`)
 }

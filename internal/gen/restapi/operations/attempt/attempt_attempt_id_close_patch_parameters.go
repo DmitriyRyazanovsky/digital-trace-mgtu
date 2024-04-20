@@ -12,11 +12,11 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // NewAttemptAttemptIDClosePatchParams creates a new AttemptAttemptIDClosePatchParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewAttemptAttemptIDClosePatchParams() AttemptAttemptIDClosePatchParams {
 
 	return AttemptAttemptIDClosePatchParams{}
@@ -31,6 +31,11 @@ type AttemptAttemptIDClosePatchParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
+	/*jwt access auth
+	  Required: true
+	  In: header
+	*/
+	Authorization string
 	/*Id попытки тестирования пользователя
 	  Required: true
 	  In: path
@@ -47,13 +52,39 @@ func (o *AttemptAttemptIDClosePatchParams) BindRequest(r *http.Request, route *m
 
 	o.HTTPRequest = r
 
+	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
 	rAttemptID, rhkAttemptID, _ := route.Params.GetOK("attempt_id")
 	if err := o.bindAttemptID(rAttemptID, rhkAttemptID, route.Formats); err != nil {
 		res = append(res, err)
 	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// bindAuthorization binds and validates parameter Authorization from header.
+func (o *AttemptAttemptIDClosePatchParams) bindAuthorization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("Authorization", "header", rawData)
+	}
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: true
+
+	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
+		return err
+	}
+
+	o.Authorization = raw
+
 	return nil
 }
 

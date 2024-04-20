@@ -13,8 +13,7 @@ import (
 )
 
 // NewLogsGetParams creates a new LogsGetParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewLogsGetParams() LogsGetParams {
 
 	return LogsGetParams{}

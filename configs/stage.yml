@@ -10,7 +10,7 @@ database:
   database: postgresql
   passwordFilePath: ./secret/postgres.pass
   userName: postgres
-  url: localhost:5432/postgres
+  url: postgres:5432/postgres
   sslMode: disable
 
   driverName: postgres

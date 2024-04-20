@@ -25,6 +25,6 @@ jwt:
 
 
 mail:
-  serverName: smtp.yandex.ru:465
+  serverName: smtp.yandex.ru:465  
   username: digitaltrace@yandex.ru
   password: goklphsnczpwmuow

@@ -13,8 +13,7 @@ import (
 )
 
 // NewTestGetParams creates a new TestGetParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewTestGetParams() TestGetParams {
 
 	return TestGetParams{}

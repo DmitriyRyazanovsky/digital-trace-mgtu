@@ -35,7 +35,7 @@ func (o *AttemptPostURL) SetBasePath(bp string) {
 func (o *AttemptPostURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/attempt"
+	var _path = "/user/attempt"
 
 	_basePath := o._basePath
 	if _basePath == "" {

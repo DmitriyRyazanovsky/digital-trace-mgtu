@@ -12,12 +12,10 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/validate"
 )
 
 // NewSessionDeleteParams creates a new SessionDeleteParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewSessionDeleteParams() SessionDeleteParams {
 
 	return SessionDeleteParams{}
@@ -60,11 +58,6 @@ func (o *SessionDeleteParams) BindRequest(r *http.Request, route *middleware.Mat
 		} else {
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
-				res = append(res, err)
-			}
-
-			ctx := validate.WithOperationRequest(r.Context())
-			if err := body.ContextValidate(ctx, route.Formats); err != nil {
 				res = append(res, err)
 			}
 

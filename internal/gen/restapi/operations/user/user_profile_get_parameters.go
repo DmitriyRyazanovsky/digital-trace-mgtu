@@ -15,8 +15,7 @@ import (
 )
 
 // NewUserProfileGetParams creates a new UserProfileGetParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewUserProfileGetParams() UserProfileGetParams {
 
 	return UserProfileGetParams{}
@@ -50,6 +49,7 @@ func (o *UserProfileGetParams) BindRequest(r *http.Request, route *middleware.Ma
 	if err := o.bindAuthorization(r.Header[http.CanonicalHeaderKey("Authorization")], true, route.Formats); err != nil {
 		res = append(res, err)
 	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -71,6 +71,7 @@ func (o *UserProfileGetParams) bindAuthorization(rawData []string, hasKey bool, 
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
+
 	o.Authorization = raw
 
 	return nil

@@ -20,5 +20,3 @@ WORKDIR /app/
 COPY --from=builder /app/run .
 
 ENTRYPOINT ["./run", "-config_path",  "/app/configs/config.yml"]
-
-EXPOSE 8888

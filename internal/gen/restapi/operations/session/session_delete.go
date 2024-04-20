@@ -6,7 +6,6 @@ package session
 // Editing this file might prove futile when you re-run the generate command
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -33,7 +32,7 @@ func NewSessionDelete(ctx *middleware.Context, handler SessionDeleteHandler) *Se
 }
 
 /*
-	SessionDelete swagger:route DELETE /session session sessionDelete
+SessionDelete swagger:route DELETE /session session sessionDelete
 
 Запрос на удаление сессии по refresh токену
 */
@@ -45,15 +44,17 @@ type SessionDelete struct {
 func (o *SessionDelete) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewSessionDeleteParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -69,11 +70,6 @@ type SessionDeleteBody struct {
 
 // Validate validates this session delete body
 func (o *SessionDeleteBody) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this session delete body based on context it is used
-func (o *SessionDeleteBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

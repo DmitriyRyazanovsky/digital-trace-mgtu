@@ -6,7 +6,6 @@ package auth
 // Editing this file might prove futile when you re-run the generate command
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -33,7 +32,7 @@ func NewAuthPost(ctx *middleware.Context, handler AuthPostHandler) *AuthPost {
 }
 
 /*
-	AuthPost swagger:route POST /auth auth authPost
+AuthPost swagger:route POST /auth auth authPost
 
 Запрос на аутентификацию пользователя
 */
@@ -45,15 +44,17 @@ type AuthPost struct {
 func (o *AuthPost) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		*r = *rCtx
+		r = rCtx
 	}
 	var Params = NewAuthPostParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
+
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -72,11 +73,6 @@ type AuthPostBody struct {
 
 // Validate validates this auth post body
 func (o *AuthPostBody) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this auth post body based on context it is used
-func (o *AuthPostBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -112,11 +108,6 @@ type AuthPostOKBody struct {
 
 // Validate validates this auth post o k body
 func (o *AuthPostOKBody) Validate(formats strfmt.Registry) error {
-	return nil
-}
-
-// ContextValidate validates this auth post o k body based on context it is used
-func (o *AuthPostOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

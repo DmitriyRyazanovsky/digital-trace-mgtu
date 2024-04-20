@@ -16,8 +16,7 @@ import (
 )
 
 // NewUserProfilePatchParams creates a new UserProfilePatchParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewUserProfilePatchParams() UserProfilePatchParams {
 
 	return UserProfilePatchParams{}
@@ -80,6 +79,7 @@ func (o *UserProfilePatchParams) BindRequest(r *http.Request, route *middleware.
 	if err := o.bindSurname(qSurname, qhkSurname, route.Formats); err != nil {
 		res = append(res, err)
 	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -101,6 +101,7 @@ func (o *UserProfilePatchParams) bindAuthorization(rawData []string, hasKey bool
 	if err := validate.RequiredString("Authorization", "header", raw); err != nil {
 		return err
 	}
+
 	o.Authorization = raw
 
 	return nil
@@ -115,10 +116,10 @@ func (o *UserProfilePatchParams) bindLogin(rawData []string, hasKey bool, format
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
+
 	o.Login = &raw
 
 	return nil
@@ -133,10 +134,10 @@ func (o *UserProfilePatchParams) bindName(rawData []string, hasKey bool, formats
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
+
 	o.Name = &raw
 
 	return nil
@@ -151,10 +152,10 @@ func (o *UserProfilePatchParams) bindSurname(rawData []string, hasKey bool, form
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
+
 	o.Surname = &raw
 
 	return nil

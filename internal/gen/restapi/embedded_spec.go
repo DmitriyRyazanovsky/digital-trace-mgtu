@@ -73,52 +73,6 @@ func init() {
         }
       }
     },
-    "/attempt": {
-      "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "attempt"
-        ],
-        "summary": "Запрос на создание совой попытки",
-        "operationId": "attemptPost",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "test_id": {
-                  "type": "integer",
-                  "format": "uint64"
-                },
-                "user_id": {
-                  "type": "integer",
-                  "format": "uint64"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Ошибка сервера",
-            "schema": {
-              "$ref": "#/definitions/error_500"
-            }
-          }
-        }
-      }
-    },
     "/attempt/{attempt_id}/close": {
       "patch": {
         "produces": [
@@ -130,6 +84,13 @@ func init() {
         "summary": "Запрос на обработку ответов по попытке и её закрытие",
         "operationId": "attemptAttemptIdClosePatch",
         "parameters": [
+          {
+            "type": "string",
+            "description": "jwt access auth",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
           {
             "type": "integer",
             "format": "uint64",
@@ -727,10 +688,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "achievement"
         ],
         "summary": "Запрос на получение информации о достижениях пользователя",
-        "operationId": "userAchievementGet",
+        "operationId": "user_achievement_get",
         "parameters": [
           {
             "type": "string",
@@ -781,10 +742,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "achievement"
         ],
         "summary": "Запрос на добавление достижения пользователю",
-        "operationId": "userAchievementPost",
+        "operationId": "user_achievement_post",
         "parameters": [
           {
             "type": "string",
@@ -834,10 +795,10 @@ func init() {
           "image/png"
         ],
         "tags": [
-          "user"
+          "achievement"
         ],
         "summary": "Запрос на получение ссылки на скачивание изображения достижения",
-        "operationId": "user_Achievement_AchiveId_Image_Get",
+        "operationId": "user_achievement_achiveId_image_get",
         "parameters": [
           {
             "type": "string",
@@ -883,10 +844,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на поиск информации о попытках прохождения теста пользователем",
-        "operationId": "userAttemptGet",
+        "operationId": "user_attempt_get",
         "parameters": [
           {
             "type": "integer",
@@ -939,6 +900,53 @@ func init() {
             }
           }
         }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "attempt"
+        ],
+        "summary": "Запрос на создание совой попытки",
+        "operationId": "attemptPost",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "jwt access auth",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "test_id": {
+                  "type": "integer",
+                  "format": "uint64"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "schema": {
+              "$ref": "#/definitions/error_500"
+            }
+          }
+        }
       }
     },
     "/user/attempt/{attempt_id}/answer": {
@@ -947,7 +955,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на получение ответов по попытке от пользователя",
         "operationId": "userAttemptAttemptIdAnswerGet",
@@ -1003,7 +1011,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на заполнение ответами попытки прохождения теста",
         "operationId": "userAttemptAttemptIdAnswerPut",
@@ -1063,10 +1071,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на получение ответов на тест интересов от азбеля",
-        "operationId": "userAttemptAttemptIdAzbelTestGet",
+        "operationId": "user_attempt_attemptId_azbel_test_get",
         "parameters": [
           {
             "type": "string",
@@ -1106,10 +1114,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на получение ответов на тест климова от пользователя",
-        "operationId": "userAttemptAttemptIdKlimovTestGet",
+        "operationId": "user_attempt_attemptId_klimov_test_get",
         "parameters": [
           {
             "type": "string",
@@ -1564,52 +1572,6 @@ func init() {
         }
       }
     },
-    "/attempt": {
-      "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "attempt"
-        ],
-        "summary": "Запрос на создание совой попытки",
-        "operationId": "attemptPost",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "test_id": {
-                  "type": "integer",
-                  "format": "uint64"
-                },
-                "user_id": {
-                  "type": "integer",
-                  "format": "uint64"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Ошибка сервера",
-            "schema": {
-              "$ref": "#/definitions/error_500"
-            }
-          }
-        }
-      }
-    },
     "/attempt/{attempt_id}/close": {
       "patch": {
         "produces": [
@@ -1621,6 +1583,13 @@ func init() {
         "summary": "Запрос на обработку ответов по попытке и её закрытие",
         "operationId": "attemptAttemptIdClosePatch",
         "parameters": [
+          {
+            "type": "string",
+            "description": "jwt access auth",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
           {
             "type": "integer",
             "format": "uint64",
@@ -2150,10 +2119,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "achievement"
         ],
         "summary": "Запрос на получение информации о достижениях пользователя",
-        "operationId": "userAchievementGet",
+        "operationId": "user_achievement_get",
         "parameters": [
           {
             "type": "string",
@@ -2186,10 +2155,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "achievement"
         ],
         "summary": "Запрос на добавление достижения пользователю",
-        "operationId": "userAchievementPost",
+        "operationId": "user_achievement_post",
         "parameters": [
           {
             "type": "string",
@@ -2240,10 +2209,10 @@ func init() {
           "image/png"
         ],
         "tags": [
-          "user"
+          "achievement"
         ],
         "summary": "Запрос на получение ссылки на скачивание изображения достижения",
-        "operationId": "user_Achievement_AchiveId_Image_Get",
+        "operationId": "user_achievement_achiveId_image_get",
         "parameters": [
           {
             "type": "string",
@@ -2289,10 +2258,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на поиск информации о попытках прохождения теста пользователем",
-        "operationId": "userAttemptGet",
+        "operationId": "user_attempt_get",
         "parameters": [
           {
             "type": "integer",
@@ -2331,6 +2300,53 @@ func init() {
             }
           }
         }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "attempt"
+        ],
+        "summary": "Запрос на создание совой попытки",
+        "operationId": "attemptPost",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "jwt access auth",
+            "name": "Authorization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "test_id": {
+                  "type": "integer",
+                  "format": "uint64"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Ошибка сервера",
+            "schema": {
+              "$ref": "#/definitions/error_500"
+            }
+          }
+        }
       }
     },
     "/user/attempt/{attempt_id}/answer": {
@@ -2339,7 +2355,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на получение ответов по попытке от пользователя",
         "operationId": "userAttemptAttemptIdAnswerGet",
@@ -2382,7 +2398,7 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на заполнение ответами попытки прохождения теста",
         "operationId": "userAttemptAttemptIdAnswerPut",
@@ -2443,10 +2459,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на получение ответов на тест интересов от азбеля",
-        "operationId": "userAttemptAttemptIdAzbelTestGet",
+        "operationId": "user_attempt_attemptId_azbel_test_get",
         "parameters": [
           {
             "type": "string",
@@ -2486,10 +2502,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "user"
+          "attempt"
         ],
         "summary": "Запрос на получение ответов на тест климова от пользователя",
-        "operationId": "userAttemptAttemptIdKlimovTestGet",
+        "operationId": "user_attempt_attemptId_klimov_test_get",
         "parameters": [
           {
             "type": "string",

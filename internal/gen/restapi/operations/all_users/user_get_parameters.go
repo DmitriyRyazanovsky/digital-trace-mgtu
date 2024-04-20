@@ -16,8 +16,7 @@ import (
 )
 
 // NewUserGetParams creates a new UserGetParams object
-//
-// There are no default values defined in the spec.
+// no default values defined in spec.
 func NewUserGetParams() UserGetParams {
 
 	return UserGetParams{}
@@ -98,6 +97,7 @@ func (o *UserGetParams) BindRequest(r *http.Request, route *middleware.MatchedRo
 	if err := o.bindSurname(qSurname, qhkSurname, route.Formats); err != nil {
 		res = append(res, err)
 	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -113,10 +113,10 @@ func (o *UserGetParams) bindEmail(rawData []string, hasKey bool, formats strfmt.
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
+
 	o.Email = &raw
 
 	return nil
@@ -131,7 +131,6 @@ func (o *UserGetParams) bindID(rawData []string, hasKey bool, formats strfmt.Reg
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
@@ -154,10 +153,10 @@ func (o *UserGetParams) bindLogin(rawData []string, hasKey bool, formats strfmt.
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
+
 	o.Login = &raw
 
 	return nil
@@ -172,10 +171,10 @@ func (o *UserGetParams) bindName(rawData []string, hasKey bool, formats strfmt.R
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
+
 	o.Name = &raw
 
 	return nil
@@ -190,7 +189,6 @@ func (o *UserGetParams) bindRoleID(rawData []string, hasKey bool, formats strfmt
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
@@ -213,10 +211,10 @@ func (o *UserGetParams) bindSurname(rawData []string, hasKey bool, formats strfm
 
 	// Required: false
 	// AllowEmptyValue: false
-
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
+
 	o.Surname = &raw
 
 	return nil

@@ -3,7 +3,7 @@ package handlers
 import (
 	"mgtu/digital-trace/main-backend-service/internal/database"
 	"mgtu/digital-trace/main-backend-service/internal/gen/models"
-	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/user"
+	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/attempt"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/pkg/errors"
@@ -12,14 +12,14 @@ import (
 func (h *Handler) userAttemptAttemptIdKlimovTestGet500(err error) middleware.Responder {
 	err = errors.Wrapf(err, "handler error: [userUserIdAttemptAttemptIdKlimovTestGet]")
 	h.log.Error(err.Error())
-	return user.NewUserAttemptAttemptIDKlimovTestGetInternalServerError().WithPayload(
+	return attempt.NewUserAttemptAttemptIDKlimovTestGetInternalServerError().WithPayload(
 		&models.Error500{
 			Error: err.Error(),
 		},
 	)
 }
 
-func (h *Handler) userAttemptAttemptIdKlimovTestGet(params user.UserAttemptAttemptIDKlimovTestGetParams) middleware.Responder {
+func (h *Handler) userAttemptAttemptIdKlimovTestGet(params attempt.UserAttemptAttemptIDKlimovTestGetParams) middleware.Responder {
 	tx, err := h.db.OpenTransaction()
 	if err != nil {
 		return h.userAttemptAttemptIdKlimovTestGet500(errors.Wrap(err, "[h.db.OpenTransaction()]"))
@@ -57,5 +57,5 @@ func (h *Handler) userAttemptAttemptIdKlimovTestGet(params user.UserAttemptAttem
 		return h.userAttemptAttemptIdKlimovTestGet500(errors.Wrap(err, "[h.db.CommitTransaction()]"))
 	}
 
-	return user.NewUserAttemptAttemptIDKlimovTestGetOK().WithPayload(out)
+	return attempt.NewUserAttemptAttemptIDKlimovTestGetOK().WithPayload(out)
 }

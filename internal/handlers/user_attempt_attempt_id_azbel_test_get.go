@@ -3,7 +3,7 @@ package handlers
 import (
 	"mgtu/digital-trace/main-backend-service/internal/database"
 	"mgtu/digital-trace/main-backend-service/internal/gen/models"
-	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/user"
+	"mgtu/digital-trace/main-backend-service/internal/gen/restapi/operations/attempt"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/pkg/errors"
@@ -12,14 +12,14 @@ import (
 func (h *Handler) userAttemptAttemptIdAzbelTestGet500(err error) middleware.Responder {
 	err = errors.Wrapf(err, "handler error: [userAttemptAttemptIdAzbelTestGet]")
 	h.log.Error(err.Error())
-	return user.NewUserAttemptAttemptIDAzbelTestGetInternalServerError().WithPayload(
+	return attempt.NewUserAttemptAttemptIDAzbelTestGetInternalServerError().WithPayload(
 		&models.Error500{
 			Error: err.Error(),
 		},
 	)
 }
 
-func (h *Handler) userAttemptAttemptIdAzbelTestGet(params user.UserAttemptAttemptIDAzbelTestGetParams) middleware.Responder {
+func (h *Handler) userAttemptAttemptIdAzbelTestGet(params attempt.UserAttemptAttemptIDAzbelTestGetParams) middleware.Responder {
 	tx, err := h.db.OpenTransaction()
 	if err != nil {
 		return h.userAttemptAttemptIdAzbelTestGet500(errors.Wrap(err, "[h.db.OpenTransaction()]"))
@@ -49,5 +49,5 @@ func (h *Handler) userAttemptAttemptIdAzbelTestGet(params user.UserAttemptAttemp
 		return h.userAttemptAttemptIdAzbelTestGet500(errors.Wrap(err, "[h.db.CommitTransaction()]"))
 	}
 
-	return user.NewUserAttemptAttemptIDAzbelTestGetOK().WithPayload(out)
+	return attempt.NewUserAttemptAttemptIDAzbelTestGetOK().WithPayload(out)
 }
